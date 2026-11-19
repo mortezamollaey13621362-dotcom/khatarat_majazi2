@@ -1,0 +1,2636 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>سایبرلند | ماجراجویی در دنیای دیجیتال</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1:#050816;
+    --bg-2:#0d1130;
+    --bg-3:#181d45;
+    --cyan:#22d3ee;
+    --cyan-deep:#0e7490;
+    --purple:#8b5cf6;
+    --purple-deep:#6d28d9;
+    --pink:#ec4899;
+    --pink-deep:#be185d;
+    --gold:#fbbf24;
+    --gold-deep:#d97706;
+    --green:#10b981;
+    --green-deep:#047857;
+    --red:#ef4444;
+    --red-deep:#991b1b;
+    --white:#fff;
+    --text:#e8ecff;
+    --muted:#8b94c7;
+    --shadow-sm:0 4px 12px rgba(0,0,0,.3);
+    --shadow-md:0 8px 24px rgba(0,0,0,.4);
+    --shadow-lg:0 16px 40px rgba(0,0,0,.5);
+    --glow-cyan:0 0 30px rgba(34,211,238,.5);
+    --glow-purple:0 0 30px rgba(139,92,246,.5);
+    --glow-gold:0 0 30px rgba(251,191,36,.5);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;}
+  body{
+    font-family:'Vazirmatn',Tahoma,sans-serif;
+    color:var(--text);user-select:none;
+    background:var(--bg-1);
+    min-height:100vh;min-height:100dvh;
+    display:flex;justify-content:center;align-items:center;
+    overflow:hidden;touch-action:manipulation;
+    position:relative;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(139,92,246,.3), transparent 50%),
+      radial-gradient(circle at 85% 90%, rgba(34,211,238,.25), transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(236,72,153,.15), transparent 60%),
+      linear-gradient(160deg, var(--bg-1), var(--bg-2) 40%, var(--bg-3));
+    z-index:-2;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(34,211,238,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,211,238,.06) 1px, transparent 1px);
+    background-size:50px 50px;
+    animation:gridMove 30s linear infinite;
+    pointer-events:none;z-index:-1;
+  }
+  @keyframes gridMove{
+    from{background-position:0 0;}
+    to{background-position:50px 50px;}
+  }
+
+  #confetti,#emojiRain{position:fixed;inset:0;pointer-events:none;z-index:9999;}
+  #emojiRain{z-index:9998;}
+
+  /* ===== SCREENS ===== */
+  .screen{
+    position:fixed;inset:0;
+    display:none;flex-direction:column;
+    padding:16px;overflow-y:auto;
+    z-index:10;
+    -webkit-overflow-scrolling:touch;
+  }
+  .screen.active{display:flex;animation:screenIn .5s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes screenIn{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:none;}
+  }
+  .screen::-webkit-scrollbar{width:0;}
+
+  /* ===== START SCREEN ===== */
+  #screenStart{justify-content:center;align-items:center;text-align:center;}
+  .start-hero{
+    width:160px;height:160px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #d9f7ff, #22d3ee 45%, #8b5cf6 90%);
+    display:flex;align-items:center;justify-content:center;
+    font-size:5rem;
+    box-shadow:
+      0 0 80px rgba(34,211,238,.7),
+      0 0 160px rgba(139,92,246,.5),
+      inset 0 -8px 24px rgba(0,80,120,.4),
+      inset 0 8px 24px rgba(255,255,255,.5);
+    animation:heroFloat 3s ease-in-out infinite;
+    position:relative;
+    margin-bottom:20px;
+  }
+  @keyframes heroFloat{
+    0%,100%{transform:translateY(0) scale(1);}
+    50%{transform:translateY(-15px) scale(1.04);}
+  }
+  .start-hero::before{
+    content:"";position:absolute;inset:-30px;
+    border-radius:50%;
+    background:conic-gradient(from 0deg, transparent, rgba(34,211,238,.6), transparent, rgba(139,92,246,.6), transparent);
+    filter:blur(30px);
+    z-index:-1;
+    animation:rotate 10s linear infinite;
+  }
+  @keyframes rotate{to{transform:rotate(360deg);}}
+
+  .start-title{
+    font-size:clamp(1.6rem,7vw,2.2rem);
+    font-weight:900;
+    background:linear-gradient(135deg,var(--cyan),var(--purple),var(--pink));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    line-height:1.3;margin-bottom:8px;
+    filter:drop-shadow(0 0 30px rgba(34,211,238,.6));
+  }
+  .start-tagline{
+    font-size:clamp(.85rem,3vw,1rem);
+    color:var(--text);font-weight:700;
+    line-height:1.9;margin-bottom:20px;
+    padding:0 20px;
+  }
+  .start-tagline b{color:var(--cyan);}
+
+  .input-group{
+    width:100%;max-width:380px;
+    margin-bottom:12px;
+    text-align:right;
+  }
+  .input-label{
+    font-size:.78rem;font-weight:900;
+    color:var(--cyan);
+    margin-bottom:6px;
+    padding:0 4px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .input-label::before{
+    content:"";width:4px;height:14px;
+    background:linear-gradient(180deg,var(--cyan),var(--purple));
+    border-radius:2px;
+  }
+  .name-input{
+    width:100%;
+    padding:15px 20px;
+    border-radius:50px;
+    background:rgba(255,255,255,.06);
+    border:2px solid rgba(34,211,238,.25);
+    color:var(--text);
+    font-family:inherit;
+    font-size:1rem;font-weight:800;
+    text-align:center;outline:none;
+    transition:.2s;
+    backdrop-filter:blur(10px);
+  }
+  .name-input:focus{
+    border-color:var(--cyan);
+    box-shadow:0 0 20px rgba(34,211,238,.4);
+    background:rgba(34,211,238,.08);
+  }
+  .name-input::placeholder{color:var(--muted);font-weight:600;}
+
+  .age-options{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    width:100%;max-width:380px;
+    margin-bottom:18px;
+  }
+  .age-card{
+    padding:14px 8px;
+    border-radius:18px;
+    background:rgba(255,255,255,.05);
+    border:2px solid rgba(255,255,255,.12);
+    color:var(--text);
+    font-family:inherit;
+    cursor:pointer;
+    transition:.25s;
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    text-align:center;
+    backdrop-filter:blur(10px);
+  }
+  .age-card .ac-emoji{font-size:1.8rem;line-height:1;}
+  .age-card .ac-name{
+    font-size:.82rem;font-weight:900;
+    color:var(--text);line-height:1.3;
+  }
+  .age-card .ac-desc{
+    font-size:.62rem;font-weight:700;
+    color:var(--muted);line-height:1.3;
+  }
+  .age-card.selected{
+    border-color:var(--cyan);
+    background:linear-gradient(135deg,rgba(34,211,238,.15),rgba(139,92,246,.15));
+    box-shadow:0 0 20px rgba(34,211,238,.4);
+    transform:translateY(-3px);
+  }
+  .age-card:active{transform:scale(.96);}
+
+  .start-btn{
+    padding:17px 44px;
+    border-radius:50px;border:none;
+    background:linear-gradient(135deg,var(--cyan),var(--purple));
+    color:#fff;
+    font-family:inherit;
+    font-size:clamp(1rem,3.2vw,1.1rem);font-weight:900;
+    cursor:pointer;
+    width:100%;max-width:380px;
+    box-shadow:
+      0 0 30px rgba(34,211,238,.6),
+      0 8px 24px rgba(0,0,0,.4);
+    transition:.2s;
+    position:relative;overflow:hidden;
+    animation:btnGlow 2.5s ease-in-out infinite;
+  }
+  @keyframes btnGlow{
+    0%,100%{box-shadow:0 0 30px rgba(34,211,238,.6),0 8px 24px rgba(0,0,0,.4);}
+    50%{box-shadow:0 0 50px rgba(34,211,238,.9),0 8px 24px rgba(0,0,0,.4);}
+  }
+  .start-btn::before{
+    content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+    animation:shine 3s infinite;
+  }
+  @keyframes shine{to{left:100%;}}
+  .start-btn:active{transform:scale(.97);}
+
+  /* ===== MAIN APP ===== */
+  #app{
+    position:fixed;inset:0;
+    display:none;flex-direction:column;
+    padding:12px;
+    z-index:5;
+    max-width:520px;
+    margin:0 auto;
+  }
+  #app.active{display:flex;}
+
+  /* TOP HUD */
+  .hud{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:6px;
+    padding:8px 10px;margin-bottom:8px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(34,211,238,.2);
+    border-radius:16px;
+    backdrop-filter:blur(12px);
+    flex-shrink:0;
+  }
+  .hud-logo{
+    display:flex;align-items:center;gap:6px;
+    font-weight:900;font-size:.85rem;
+    color:var(--cyan);
+  }
+  .hud-logo .hl-icon{
+    width:32px;height:32px;border-radius:10px;
+    background:linear-gradient(135deg,var(--cyan),var(--purple));
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;
+    box-shadow:0 0 12px rgba(34,211,238,.5);
+  }
+  .hud-stats{
+    display:flex;gap:5px;align-items:center;
+  }
+  .hud-stat{
+    display:flex;align-items:center;gap:4px;
+    padding:5px 10px;border-radius:50px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    font-weight:900;font-size:.72rem;
+    color:var(--text);
+    transition:transform .3s;
+    white-space:nowrap;
+  }
+  .hud-stat.pop{transform:scale(1.2);}
+  .hud-stat.shield{color:var(--cyan);border-color:rgba(34,211,238,.4);}
+  .hud-stat.star{color:var(--gold);border-color:rgba(251,191,36,.4);}
+  .hud-stat.mistake{color:var(--red);border-color:rgba(239,68,68,.4);}
+
+  .hud-btn{
+    width:36px;height:36px;border-radius:12px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.15);
+    color:var(--text);
+    font-size:1rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:.2s;
+  }
+  .hud-btn:active{transform:scale(.9);}
+
+  /* Progress bar */
+  .progress-wrap{
+    padding:0 4px 8px;
+    flex-shrink:0;
+  }
+  .progress-track{
+    height:6px;background:rgba(255,255,255,.06);
+    border-radius:50px;overflow:hidden;
+    position:relative;
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+    border-radius:50px;
+    transition:width .8s cubic-bezier(.4,0,.2,1);
+    box-shadow:0 0 12px rgba(34,211,238,.6);
+    position:relative;
+  }
+  .progress-fill::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+    animation:shimmer 2s linear infinite;
+  }
+  @keyframes shimmer{
+    from{transform:translateX(-100%);}
+    to{transform:translateX(100%);}
+  }
+
+  /* Phone */
+  .phone-wrap{
+    flex:1;
+    display:flex;align-items:center;justify-content:center;
+    min-height:0;padding:4px;
+  }
+  .phone{
+    width:100%;max-width:360px;
+    height:100%;max-height:640px;
+    background:linear-gradient(160deg,#2a2a35,#1a1a25);
+    border-radius:40px;
+    padding:12px 10px;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,.6),
+      0 0 0 2px rgba(34,211,238,.2),
+      0 0 40px rgba(139,92,246,.3);
+    display:flex;flex-direction:column;
+    position:relative;
+  }
+  .phone::before{
+    content:"";position:absolute;top:6px;left:50%;
+    transform:translateX(-50%);
+    width:90px;height:6px;
+    background:#0a0a10;
+    border-radius:50px;
+    z-index:3;
+  }
+  .phone-screen{
+    flex:1;
+    background:linear-gradient(180deg,#f0f4ff,#e6ecff);
+    border-radius:32px;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    min-height:0;position:relative;
+  }
+
+  .status-bar{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 18px 6px;
+    font-size:.65rem;font-weight:900;
+    color:#1a1a25;
+    flex-shrink:0;
+  }
+
+  /* Home screen of phone - notification feed */
+  .notif-feed{
+    flex:1;overflow-y:auto;
+    padding:6px 12px 16px;
+    display:flex;flex-direction:column;gap:10px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .notif-feed::-webkit-scrollbar{width:0;}
+
+  .feed-header{
+    font-size:.72rem;font-weight:900;color:#4a4a6a;
+    padding:4px 4px 6px;
+    display:flex;align-items:center;gap:5px;
+    flex-shrink:0;
+  }
+  .feed-header::before{content:"📬";font-size:.9rem;}
+
+  .notif-card{
+    background:#fff;
+    border-radius:18px;
+    padding:12px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 4px 12px rgba(80,80,150,.12);
+    cursor:pointer;
+    transition:transform .2s, box-shadow .2s;
+    position:relative;
+    border:2px solid transparent;
+    animation:notifIn .5s cubic-bezier(.34,1.56,.64,1) backwards;
+    text-align:right;
+  }
+  .notif-card:active{transform:scale(.97);}
+  .notif-card:hover{box-shadow:0 8px 24px rgba(80,80,150,.25);border-color:rgba(34,211,238,.4);}
+  @keyframes notifIn{
+    from{opacity:0;transform:translateX(-30px) scale(.9);}
+    to{opacity:1;transform:none;}
+  }
+  .notif-card.done{
+    background:linear-gradient(135deg,#e0ffef,#d0f7e0);
+    border-color:var(--green);
+    opacity:.7;
+  }
+  .notif-card.done::after{
+    content:"✓";
+    position:absolute;top:-6px;left:-6px;
+    background:var(--green);color:#fff;
+    width:26px;height:26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;font-weight:900;
+    box-shadow:0 3px 10px rgba(16,185,129,.5);
+  }
+  .notif-card.urgent::before{
+    content:"";
+    position:absolute;top:10px;right:-3px;
+    width:10px;height:10px;border-radius:50%;
+    background:var(--red);
+    box-shadow:0 0 12px var(--red);
+    animation:pulse 1.5s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1);opacity:1;}
+    50%{transform:scale(1.3);opacity:.7;}
+  }
+  .nc-app{
+    width:48px;height:48px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.5rem;flex-shrink:0;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+  }
+  .nc-body{flex:1;min-width:0;text-align:right;}
+  .nc-row{display:flex;justify-content:space-between;align-items:center;gap:6px;}
+  .nc-sender{
+    font-weight:900;font-size:.82rem;color:#1a1a25;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .nc-time{font-size:.62rem;font-weight:700;color:#8a8aa0;flex-shrink:0;}
+  .nc-preview{
+    font-size:.72rem;font-weight:700;color:#5a5a7a;
+    margin-top:3px;line-height:1.4;
+    display:-webkit-box;-webkit-line-clamp:2;
+    -webkit-box-orient:vertical;overflow:hidden;
+  }
+  .nc-arrow{
+    color:#a0a0c0;font-size:1rem;flex-shrink:0;
+  }
+
+  /* Detail view inside phone */
+  .detail-view{
+    flex:1;display:flex;flex-direction:column;
+    overflow:hidden;
+  }
+  .detail-header{
+    display:flex;align-items:center;gap:8px;
+    padding:8px 12px;
+    background:#fff;
+    border-bottom:1px solid rgba(80,80,150,.1);
+    flex-shrink:0;
+  }
+  .detail-back{
+    width:32px;height:32px;border-radius:10px;
+    background:#f0f4ff;border:none;
+    font-size:1rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    color:#4a4a6a;
+    transition:transform .15s;
+  }
+  .detail-back:active{transform:scale(.9);}
+  .detail-app-icon{
+    width:32px;height:32px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;flex-shrink:0;
+  }
+  .detail-app-info{flex:1;min-width:0;text-align:right;}
+  .detail-app-name{font-size:.75rem;font-weight:900;color:#1a1a25;}
+  .detail-app-sub{font-size:.62rem;font-weight:700;color:#8a8aa0;margin-top:1px;}
+
+  .detail-scroll{
+    flex:1;overflow-y:auto;
+    padding:16px 12px;
+    -webkit-overflow-scrolling:touch;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .detail-scroll::-webkit-scrollbar{width:0;}
+
+  .incoming-bubble{
+    background:#fff;
+    border-radius:18px;
+    border-top-right-radius:4px;
+    padding:14px;
+    align-self:flex-start;
+    max-width:92%;
+    box-shadow:0 4px 12px rgba(80,80,150,.1);
+    font-size:.85rem;font-weight:700;
+    line-height:1.8;color:#1a1a25;
+    white-space:pre-line;
+    animation:bubbleIn .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes bubbleIn{
+    from{opacity:0;transform:translateY(10px) scale(.95);}
+    to{opacity:1;transform:none;}
+  }
+  .incoming-bubble b{color:#0e7490;font-weight:900;}
+
+  .choices-label{
+    font-size:.7rem;font-weight:900;color:#8a8aa0;
+    text-align:center;padding:6px 0 2px;
+  }
+
+  .choices-list{
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .choice-btn{
+    padding:13px 14px;
+    border-radius:16px;
+    background:#fff;
+    border:2px solid #e0e6f8;
+    color:#1a1a25;
+    font-family:inherit;
+    font-size:.82rem;font-weight:800;
+    cursor:pointer;text-align:right;
+    transition:.2s;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 3px 10px rgba(80,80,150,.1);
+    line-height:1.5;
+  }
+  .choice-btn:hover{border-color:var(--cyan);transform:translateX(-3px);}
+  .choice-btn:active{transform:scale(.97);}
+  .choice-btn:disabled{pointer-events:none;opacity:.5;}
+  .choice-btn .cb-icon{
+    width:36px;height:36px;border-radius:11px;
+    background:#f0f4ff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;flex-shrink:0;
+  }
+  .choice-btn .cb-text{flex:1;min-width:0;}
+  .choice-btn.chosen-safe{
+    background:linear-gradient(135deg,#e0ffef,#d0f7e0);
+    border-color:var(--green);
+    color:#065f46;
+  }
+  .choice-btn.chosen-safe .cb-icon{background:#a7f3d0;}
+  .choice-btn.chosen-risk{
+    background:linear-gradient(135deg,#ffe4e4,#ffd4d4);
+    border-color:var(--red);
+    color:#991b1b;
+    animation:shake .4s;
+  }
+  .choice-btn.chosen-risk .cb-icon{background:#fecaca;}
+  .choice-btn.chosen-hint{
+    background:linear-gradient(135deg,#fef3c7,#fde68a);
+    border-color:var(--gold);
+    color:#78350f;
+  }
+  .choice-btn.chosen-hint .cb-icon{background:#fde68a;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+  }
+
+  /* ===== GUARDIAN (Companion) ===== */
+  .guardian{
+    position:fixed;
+    bottom:16px;left:16px;
+    width:72px;height:72px;
+    z-index:100;
+    cursor:pointer;
+    transition:transform .3s;
+    display:none;
+  }
+  .guardian.active{display:block;}
+  .guardian-body{
+    width:100%;height:100%;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #e0f7ff, #22d3ee 45%, #0e7490);
+    box-shadow:
+      0 0 30px rgba(34,211,238,.7),
+      0 0 60px rgba(34,211,238,.4),
+      inset 0 -4px 12px rgba(0,60,90,.5),
+      inset 0 4px 12px rgba(255,255,255,.7);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.8rem;
+    position:relative;
+    animation:guardianIdle 3s ease-in-out infinite;
+  }
+  @keyframes guardianIdle{
+    0%,100%{transform:translateY(0) scale(1);}
+    50%{transform:translateY(-8px) scale(1.03);}
+  }
+  .guardian.alert .guardian-body{
+    background:radial-gradient(circle at 35% 30%, #ffe0e0, #ef4444 50%, #991b1b);
+    box-shadow:
+      0 0 40px rgba(239,68,68,.9),
+      0 0 80px rgba(239,68,68,.5);
+    animation:guardianAlert .35s ease-in-out infinite;
+  }
+  @keyframes guardianAlert{
+    0%,100%{transform:rotate(-6deg) scale(1.05);}
+    50%{transform:rotate(6deg) scale(1.05);}
+  }
+  .guardian.happy .guardian-body{
+    background:radial-gradient(circle at 35% 30%, #d0ffe0, #10b981 50%, #047857);
+    box-shadow:
+      0 0 40px rgba(16,185,129,.9),
+      0 0 80px rgba(16,185,129,.5);
+    animation:guardianHappy .6s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes guardianHappy{
+    0%{transform:scale(1) rotate(0);}
+    40%{transform:scale(1.25) rotate(15deg);}
+    70%{transform:scale(1.15) rotate(-10deg);}
+    100%{transform:scale(1.05) rotate(0);}
+  }
+  .guardian-bubble{
+    position:absolute;
+    bottom:82px;left:0;
+    background:linear-gradient(160deg,#fff,#e8f6ff);
+    color:#0a0e27;
+    padding:12px 16px;
+    border-radius:18px;
+    border-bottom-left-radius:4px;
+    font-size:.78rem;font-weight:800;
+    box-shadow:
+      0 10px 30px rgba(0,0,0,.4),
+      0 0 0 2px rgba(34,211,238,.3);
+    max-width:240px;
+    line-height:1.6;
+    opacity:0;
+    transform:translateY(15px) scale(.9);
+    transition:.4s cubic-bezier(.34,1.56,.64,1);
+    pointer-events:none;
+    text-align:right;
+    white-space:normal;
+  }
+  .guardian-bubble.show{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+  .guardian-bubble::after{
+    content:"";position:absolute;
+    bottom:-10px;left:22px;
+    width:0;height:0;
+    border:10px solid transparent;
+    border-top-color:#e8f6ff;
+    border-bottom:0;
+  }
+
+  /* ===== MODALS ===== */
+  .modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(5,8,22,.85);
+    backdrop-filter:blur(10px);
+    display:none;align-items:center;justify-content:center;
+    padding:20px;z-index:1000;
+    animation:fadeIn .25s;
+  }
+  .modal-overlay.show{display:flex;}
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+  .modal-card{
+    background:linear-gradient(160deg,#fff,#f0f4ff);
+    border-radius:26px;
+    padding:22px 20px;
+    max-width:400px;width:100%;
+    text-align:center;
+    box-shadow:
+      0 30px 80px rgba(0,0,0,.6),
+      0 0 0 3px rgba(34,211,238,.3);
+    animation:modalIn .5s cubic-bezier(.34,1.56,.64,1);
+    max-height:92vh;overflow-y:auto;
+    position:relative;
+  }
+  @keyframes modalIn{
+    from{opacity:0;transform:scale(.85) translateY(30px);}
+    to{opacity:1;transform:none;}
+  }
+
+  .modal-icon{
+    width:80px;height:80px;
+    margin:0 auto 14px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:2.4rem;
+    animation:iconBob 2s ease-in-out infinite;
+  }
+  @keyframes iconBob{
+    0%,100%{transform:translateY(0) scale(1);}
+    50%{transform:translateY(-8px) scale(1.05);}
+  }
+  .modal-icon.danger{
+    background:radial-gradient(circle at 35% 30%, #ffe0e0, #ef4444 50%, #991b1b);
+    box-shadow:0 0 50px rgba(239,68,68,.6);
+  }
+  .modal-icon.praise{
+    background:radial-gradient(circle at 35% 30%, #d0ffe0, #10b981 50%, #047857);
+    box-shadow:0 0 50px rgba(16,185,129,.6);
+  }
+  .modal-icon.hint{
+    background:radial-gradient(circle at 35% 30%, #fff8d0, #fbbf24 50%, #d97706);
+    box-shadow:0 0 50px rgba(251,191,36,.6);
+  }
+  .modal-icon.info{
+    background:radial-gradient(circle at 35% 30%, #e0f7ff, #22d3ee 50%, #0e7490);
+    box-shadow:0 0 50px rgba(34,211,238,.6);
+  }
+
+  .modal-title{
+    font-size:1.1rem;font-weight:900;
+    margin-bottom:12px;line-height:1.5;
+  }
+  .modal-icon.danger ~ .modal-title{color:#991b1b;}
+  .modal-icon.praise ~ .modal-title{color:#065f46;}
+  .modal-icon.hint ~ .modal-title{color:#92400e;}
+  .modal-icon.info ~ .modal-title{color:#0e7490;}
+
+  .modal-body{
+    font-size:.85rem;font-weight:700;
+    line-height:1.9;color:#1a1a25;
+    text-align:right;
+    padding:12px 14px;
+    border-radius:14px;
+    margin-bottom:12px;
+    background:#f0f4ff;
+    border-right:4px solid var(--cyan);
+  }
+  .modal-body b{color:#0e7490;font-weight:900;}
+
+  .modal-tip{
+    font-size:.82rem;font-weight:800;
+    line-height:1.9;color:#065f46;
+    text-align:right;
+    padding:12px 14px;
+    border-radius:14px;
+    margin-bottom:16px;
+    background:linear-gradient(135deg,#f0fdf4,#dcfce7);
+    border-right:4px solid var(--green);
+  }
+  .modal-tip b{color:#047857;}
+
+  .modal-btn{
+    padding:14px 24px;
+    border-radius:50px;border:none;
+    background:linear-gradient(135deg,var(--cyan),var(--purple));
+    color:#fff;font-family:inherit;
+    font-size:.95rem;font-weight:900;
+    cursor:pointer;width:100%;
+    box-shadow:0 6px 20px rgba(34,211,238,.4);
+    transition:.2s;
+    margin-top:4px;
+  }
+  .modal-btn:active{transform:scale(.97);}
+  .modal-btn.secondary{
+    background:transparent;
+    border:2px solid rgba(34,211,238,.4);
+    color:var(--cyan);
+    box-shadow:none;
+    margin-top:8px;
+  }
+
+  /* ===== FIELD GUIDE ===== */
+  .guide-card{
+    background:linear-gradient(160deg,#fff,#f0f8ff);
+    max-height:88vh;
+  }
+  .guide-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-bottom:12px;
+    border-bottom:1px solid rgba(80,80,150,.1);
+    margin-bottom:12px;
+  }
+  .guide-title{
+    font-size:1.05rem;font-weight:900;
+    color:#0e7490;
+    display:flex;align-items:center;gap:8px;
+  }
+  .guide-scroll{
+    max-height:60vh;overflow-y:auto;
+    padding:4px;
+    text-align:right;
+  }
+  .guide-scroll::-webkit-scrollbar{width:4px;}
+  .guide-scroll::-webkit-scrollbar-thumb{background:rgba(34,211,238,.4);border-radius:4px;}
+  .guide-item{
+    padding:12px 14px;
+    background:#f8fbff;
+    border-radius:14px;
+    margin-bottom:8px;
+    border-right:4px solid var(--cyan);
+    text-align:right;
+  }
+  .guide-item .gi-title{
+    font-size:.85rem;font-weight:900;
+    color:#0e7490;margin-bottom:6px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .guide-item .gi-text{
+    font-size:.78rem;font-weight:700;
+    color:#1a1a25;line-height:1.7;
+  }
+  .guide-item.warning{border-right-color:var(--red);}
+  .guide-item.warning .gi-title{color:#991b1b;}
+  .guide-item.safe{border-right-color:var(--green);}
+  .guide-item.safe .gi-title{color:#065f46;}
+
+  /* ===== DASHBOARD ===== */
+  .dash-card{
+    background:linear-gradient(160deg,#fff,#f5f8ff);
+    max-height:90vh;
+  }
+  .dash-title{
+    font-size:1.1rem;font-weight:900;
+    color:#0e7490;text-align:center;
+    margin-bottom:14px;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .dash-scroll{
+    max-height:70vh;overflow-y:auto;
+    text-align:right;
+    padding:4px;
+  }
+  .dash-section{
+    background:#f8fbff;
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:10px;
+    border-right:4px solid var(--purple);
+  }
+  .dash-section h4{
+    font-size:.82rem;font-weight:900;
+    color:#6d28d9;margin-bottom:8px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .dash-row{
+    display:flex;justify-content:space-between;
+    padding:6px 0;
+    border-bottom:1px dashed rgba(80,80,150,.1);
+    font-size:.8rem;font-weight:800;
+  }
+  .dash-row:last-child{border-bottom:none;}
+  .dash-row .dr-key{color:#5a5a7a;}
+  .dash-row .dr-val{color:#0e7490;font-weight:900;}
+  .dash-bar{
+    height:8px;background:rgba(80,80,150,.1);
+    border-radius:50px;overflow:hidden;margin-top:4px;
+  }
+  .dash-bar-fill{
+    height:100%;border-radius:50px;
+    background:linear-gradient(90deg,var(--cyan),var(--purple));
+    transition:width .8s;
+  }
+
+  /* ===== ACHIEVEMENTS ===== */
+  .ach-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    max-height:60vh;overflow-y:auto;
+    padding:4px;
+  }
+  .ach-item{
+    padding:12px 6px;
+    border-radius:14px;
+    background:#f0f4ff;
+    border:2px solid transparent;
+    text-align:center;
+    transition:.3s;
+  }
+  .ach-item.locked{opacity:.35;filter:grayscale(1);}
+  .ach-item.earned{
+    background:linear-gradient(135deg,#fff8e0,#ffe4b8);
+    border-color:var(--gold);
+    box-shadow:0 4px 14px rgba(251,191,36,.3);
+  }
+  .ach-item .ai-emoji{
+    font-size:1.8rem;line-height:1;
+    display:block;margin-bottom:6px;
+  }
+  .ach-item.earned .ai-emoji{
+    animation:achBounce 2s ease-in-out infinite;
+  }
+  @keyframes achBounce{
+    0%,100%{transform:translateY(0) rotate(-5deg);}
+    50%{transform:translateY(-5px) rotate(5deg);}
+  }
+  .ach-item .ai-name{
+    font-size:.65rem;font-weight:900;
+    color:#4a4a6a;line-height:1.3;
+  }
+  .ach-item.earned .ai-name{color:#92400e;}
+
+  /* ===== RESULT SCREEN ===== */
+  .result-wrap{
+    flex:1;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    text-align:center;gap:14px;
+    padding:20px;overflow-y:auto;
+  }
+  .result-emoji{
+    font-size:6rem;line-height:1;
+    animation:resultFloat 2s ease-in-out infinite;
+    filter:drop-shadow(0 0 50px currentColor);
+  }
+  @keyframes resultFloat{
+    0%,100%{transform:translateY(0) rotate(-3deg) scale(1);}
+    50%{transform:translateY(-15px) rotate(3deg) scale(1.05);}
+  }
+  .result-title{
+    font-size:clamp(1.4rem,5.5vw,1.9rem);
+    font-weight:900;
+    background:linear-gradient(135deg,var(--cyan),var(--purple),var(--pink));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    line-height:1.4;
+  }
+  .result-sub{
+    font-size:clamp(.85rem,2.9vw,.95rem);
+    color:var(--text);font-weight:700;
+    line-height:1.9;max-width:340px;
+  }
+  .result-stats{
+    display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+    margin:8px 0;
+  }
+  .result-stat{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(34,211,238,.3);
+    border-radius:14px;
+    padding:12px 18px;
+    min-width:90px;
+    text-align:center;
+  }
+  .result-stat .rs-val{
+    font-size:1.5rem;font-weight:900;
+    color:var(--cyan);display:block;
+    line-height:1.1;
+  }
+  .result-stat .rs-lbl{
+    font-size:.68rem;font-weight:700;
+    color:var(--muted);margin-top:4px;
+  }
+  .result-badge{
+    background:linear-gradient(135deg,rgba(34,211,238,.15),rgba(139,92,246,.15));
+    border:2px solid var(--cyan);
+    border-radius:20px;
+    padding:16px 22px;
+    margin:10px 0;
+    max-width:340px;width:100%;
+    position:relative;
+    box-shadow:0 0 40px rgba(34,211,238,.3);
+  }
+  .result-badge .rb-emoji{
+    font-size:2.6rem;line-height:1;
+    display:block;margin-bottom:6px;
+  }
+  .result-badge .rb-name{
+    font-size:1.05rem;font-weight:900;
+    color:var(--cyan);margin-bottom:6px;
+  }
+  .result-badge .rb-desc{
+    font-size:.75rem;font-weight:700;
+    color:var(--text);line-height:1.7;
+  }
+  .result-btn{
+    padding:15px 32px;
+    border-radius:50px;border:none;
+    background:linear-gradient(135deg,var(--cyan),var(--purple));
+    color:#fff;font-family:inherit;
+    font-size:1rem;font-weight:900;
+    cursor:pointer;
+    width:100%;max-width:340px;
+    box-shadow:0 8px 24px rgba(34,211,238,.5);
+    transition:.2s;
+  }
+  .result-btn.secondary{
+    background:transparent;
+    border:2px solid rgba(34,211,238,.4);
+    color:var(--cyan);
+    box-shadow:none;
+  }
+  .result-btn:active{transform:scale(.97);}
+
+  /* ===== BADGE POPUP ===== */
+  .badge-popup{
+    position:fixed;top:50%;left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    z-index:9996;
+    padding:24px 32px;
+    background:linear-gradient(135deg,#181d45,#0d1130);
+    border:3px solid var(--gold);
+    border-radius:24px;
+    text-align:center;
+    box-shadow:
+      0 0 60px rgba(251,191,36,.6),
+      0 0 100px rgba(251,191,36,.3),
+      inset 0 0 30px rgba(251,191,36,.15);
+    max-width:280px;
+    pointer-events:none;
+  }
+  .badge-popup.show{animation:badgePop 3s cubic-bezier(.34,1.56,.64,1) forwards;}
+  @keyframes badgePop{
+    0%{transform:translate(-50%,-50%) scale(0) rotate(-30deg);opacity:0;}
+    15%{transform:translate(-50%,-50%) scale(1.1) rotate(5deg);opacity:1;}
+    25%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1;}
+    85%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1;}
+    100%{transform:translate(-50%,-50%) scale(.9) translateY(-30px);opacity:0;}
+  }
+  .badge-popup .bp-emoji{
+    font-size:4rem;line-height:1;display:block;
+    margin-bottom:8px;
+    animation:bpSpin 1.2s ease-in-out infinite;
+    filter:drop-shadow(0 0 20px var(--gold));
+  }
+  @keyframes bpSpin{
+    0%,100%{transform:rotateY(0) scale(1);}
+    50%{transform:rotateY(30deg) scale(1.1);}
+  }
+  .badge-popup .bp-label{
+    font-size:.7rem;font-weight:800;
+    color:var(--gold);letter-spacing:2px;
+    margin-bottom:6px;
+  }
+  .badge-popup .bp-title{
+    font-size:1.05rem;font-weight:900;
+    color:#fff;line-height:1.4;
+  }
+
+  /* ===== TOAST ===== */
+  .toast{
+    position:fixed;top:14%;left:50%;
+    transform:translateX(-50%) translateY(-150%);
+    padding:11px 22px;
+    border-radius:50px;
+    font-weight:900;font-size:.82rem;
+    color:#fff;
+    z-index:9998;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+    opacity:0;pointer-events:none;
+    transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;
+    max-width:90vw;text-align:center;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+  .toast.success{background:linear-gradient(135deg,var(--green),var(--green-deep));}
+  .toast.error{background:linear-gradient(135deg,var(--red),var(--red-deep));}
+  .toast.info{background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));}
+  .toast.gold{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#3a2000;}
+
+  /* Floating reward */
+  .float-reward{
+    position:fixed;font-size:1.8rem;
+    font-weight:900;pointer-events:none;
+    z-index:9997;line-height:1;
+    animation:floatReward 1.6s cubic-bezier(.4,0,.2,1) forwards;
+    text-shadow:0 0 12px currentColor;
+  }
+  @keyframes floatReward{
+    0%{opacity:1;transform:translateY(0) scale(1);}
+    30%{opacity:1;transform:translateY(-40px) scale(1.4);}
+    100%{opacity:0;transform:translateY(-200px) scale(.6);}
+  }
+
+  /* ===== PARTICLES ===== */
+  .particle{
+    position:fixed;
+    width:3px;height:3px;
+    border-radius:50%;
+    pointer-events:none;
+    animation:particleFloat linear infinite;
+    z-index:1;
+  }
+  @keyframes particleFloat{
+    0%{transform:translateY(0);opacity:0;}
+    20%{opacity:.7;}
+    100%{transform:translateY(-100vh);opacity:0;}
+  }
+
+  .hidden{display:none !important;}
+
+  /* Responsive */
+  @media (max-width:360px){
+    .age-card{padding:10px 6px;}
+    .age-card .ac-emoji{font-size:1.4rem;}
+    .age-card .ac-name{font-size:.72rem;}
+    .age-card .ac-desc{font-size:.55rem;}
+    .notif-card{padding:10px;}
+    .nc-app{width:42px;height:42px;font-size:1.3rem;}
+    .choice-btn{font-size:.78rem;padding:11px 12px;}
+    .guardian{width:60px;height:60px;}
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div id="emojiRain"></div>
+
+<!-- ===== START SCREEN ===== -->
+<section class="screen active" id="screenStart">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;">
+    <div class="start-hero">🛡️</div>
+    <h1 class="start-title">سایبرلند</h1>
+    <p class="start-tagline">
+      سلام! من <b>نور</b> هستم 🌟<br>
+      یه همراه دیجیتال که همیشه کنارته.<br>
+      با هم توی <b>سایبرلند</b> ماجراجویی می‌کنیم<br>
+      و یاد می‌گیریم چطور توی اینترنت امن بمونیم!
+    </p>
+
+    <div class="input-group">
+      <div class="input-label">اسمت چیه؟</div>
+      <input type="text" class="name-input" id="nameInput" placeholder="اسمت رو بنویس..." maxlength="15" autocomplete="off">
+    </div>
+
+    <div class="input-group">
+      <div class="input-label">چند سالته؟</div>
+      <div class="age-options" id="ageOptions">
+        <div class="age-card" data-age="kid">
+          <div class="ac-emoji">🧒</div>
+          <div class="ac-name">۷ تا ۹ سال</div>
+          <div class="ac-desc">ماجراجوی کوچک</div>
+        </div>
+        <div class="age-card" data-age="tween">
+          <div class="ac-emoji">👦</div>
+          <div class="ac-name">۱۰ تا ۱۲ سال</div>
+          <div class="ac-desc">کاشف دیجیتال</div>
+        </div>
+        <div class="age-card" data-age="teen">
+          <div class="ac-emoji">🧑</div>
+          <div class="ac-name">۱۳ تا ۱۵ سال</div>
+          <div class="ac-desc">نگهبان حرفه‌ای</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="start-btn" id="btnStart">🚀 شروع ماجراجویی</button>
+  </div>
+</section>
+
+<!-- ===== MAIN APP ===== -->
+<div id="app">
+  <div class="hud">
+    <div class="hud-logo">
+      <div class="hl-icon">🛡️</div>
+      <span id="hudName">سایبرلند</span>
+    </div>
+    <div class="hud-stats">
+      <div class="hud-stat shield" id="hudShield">🛡️ <span id="hudShieldVal">۰</span></div>
+      <div class="hud-stat mistake" id="hudMistake">💡 <span id="hudMistakeVal">۰</span></div>
+    </div>
+    <button class="hud-btn" id="btnGuide" title="راهنمای میدانی">📖</button>
+    <button class="hud-btn" id="btnAch" title="دستاوردها">🏆</button>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span>۱۲:۳۴</span>
+          <span>📶 🔋 ۸۵٪</span>
+        </div>
+        <div id="phoneContent" style="flex:1;display:flex;flex-direction:column;overflow:hidden;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GUARDIAN ===== -->
+<div class="guardian" id="guardian">
+  <div class="guardian-body">🌟</div>
+  <div class="guardian-bubble" id="guardianBubble"></div>
+</div>
+
+<!-- ===== MODALS ===== -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-card" id="modalCard">
+    <div class="modal-icon" id="modalIcon">⚠️</div>
+    <h2 class="modal-title" id="modalTitle"></h2>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-tip hidden" id="modalTip"></div>
+    <button class="modal-btn" id="btnModalPrimary">باشه، متوجه شدم</button>
+    <button class="modal-btn secondary hidden" id="btnModalSecondary">بستن</button>
+  </div>
+</div>
+
+<!-- ===== FIELD GUIDE MODAL ===== -->
+<div class="modal-overlay" id="guideModal">
+  <div class="modal-card guide-card">
+    <div class="guide-header">
+      <h2 class="guide-title">📖 راهنمای میدانی</h2>
+      <button class="hud-btn" id="btnGuideClose">✕</button>
+    </div>
+    <div class="guide-scroll" id="guideScroll"></div>
+  </div>
+</div>
+
+<!-- ===== ACHIEVEMENTS MODAL ===== -->
+<div class="modal-overlay" id="achModal">
+  <div class="modal-card">
+    <h2 class="dash-title">🏆 دستاوردهای تو</h2>
+    <div class="ach-grid" id="achGrid"></div>
+    <button class="modal-btn secondary" id="btnAchClose" style="margin-top:14px;">بستن</button>
+  </div>
+</div>
+
+<!-- ===== RESULT SCREEN ===== -->
+<section class="screen" id="screenResult">
+  <div class="result-wrap">
+    <div class="result-emoji" id="resultEmoji">🏆</div>
+    <h2 class="result-title" id="resultTitle"></h2>
+    <p class="result-sub" id="resultSub"></p>
+    <div class="result-stats" id="resultStats"></div>
+    <div class="result-badge" id="resultBadge">
+      <span class="rb-emoji" id="rbEmoji">🛡️</span>
+      <div class="rb-name" id="rbName">نگهبان دیجیتال</div>
+      <div class="rb-desc" id="rbDesc"></div>
+    </div>
+    <button class="result-btn" id="btnRestart">🔄 دوباره بازی کن</button>
+    <button class="result-btn secondary" id="btnDashboard">📊 گزارش والدین</button>
+  </div>
+</section>
+
+<!-- ===== DASHBOARD MODAL ===== -->
+<div class="modal-overlay" id="dashModal">
+  <div class="modal-card dash-card">
+    <h2 class="dash-title">📊 گزارش والدین</h2>
+    <div class="dash-scroll" id="dashScroll"></div>
+    <button class="modal-btn secondary" id="btnDashClose" style="margin-top:14px;">بستن</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   HELPERS
+============================================================ */
+var FA = '۰۱۲۳۴۵۶۷۸۹';
+function toFa(n){ return String(n).replace(/\d/g, function(d){ return FA[+d]; }); }
+function $(id){ return document.getElementById(id); }
+function shuffle(a){ return a.slice().sort(function(){ return Math.random() - 0.5; }); }
+function rand(a, b){ return Math.floor(Math.random() * (b - a + 1)) + a; }
+
+/* ============================================================
+   AUDIO ENGINE
+============================================================ */
+var actx = null;
+function initAudio(){
+  if(!actx){ try{ actx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){} }
+  if(actx && actx.state === 'suspended') actx.resume();
+}
+function tone(freq, dur, type, vol, delay){
+  type = type || 'sine'; vol = vol || 0.05; delay = delay || 0;
+  if(!actx) return;
+  try{
+    var o = actx.createOscillator();
+    var g = actx.createGain();
+    o.type = type; o.frequency.value = freq;
+    o.connect(g); g.connect(actx.destination);
+    var t = actx.currentTime + delay;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.start(t); o.stop(t + dur + 0.05);
+  }catch(e){}
+}
+function sNotif(){ tone(880, 0.08, 'sine', 0.06); tone(1200, 0.1, 'sine', 0.05, 0.08); }
+function sTap(){ tone(1200, 0.04, 'square', 0.04); }
+function sGood(){ [659, 880, 1047].forEach(function(f,i){ tone(f, 0.18, 'triangle', 0.08, i*0.08); }); }
+function sGreat(){ [523, 659, 784, 1047, 1319].forEach(function(f,i){ tone(f, 0.22, 'sine', 0.09, i*0.08); }); }
+function sAlert(){ tone(440, 0.15, 'square', 0.06); tone(330, 0.15, 'square', 0.06, 0.15); tone(220, 0.25, 'square', 0.06, 0.3); }
+function sHint(){ tone(660, 0.1, 'sine', 0.05); tone(550, 0.15, 'sine', 0.05, 0.1); }
+function sShield(){ [659, 880, 1047, 1319].forEach(function(f,i){ tone(f, 0.15, 'triangle', 0.07, i*0.06); }); }
+function sBadge(){ [784, 988, 1175, 1568].forEach(function(f,i){ tone(f, 0.2, 'sine', 0.08, i*0.08); }); }
+
+/* ============================================================
+   CONFETTI & PARTICLES
+============================================================ */
+var cvs = $('confetti');
+var ctx2d = cvs.getContext('2d');
+function resizeCvs(){ cvs.width = innerWidth; cvs.height = innerHeight; }
+addEventListener('resize', resizeCvs); resizeCvs();
+
+function confetti(count, opts){
+  count = count || 80; opts = opts || {};
+  var colors = opts.colors || ['#22d3ee','#8b5cf6','#ec4899','#fbbf24','#10b981'];
+  var parts = [];
+  for(var i=0;i<count;i++){
+    parts.push({
+      x: opts.x !== undefined ? opts.x : Math.random() * cvs.width,
+      y: opts.y !== undefined ? opts.y : -20 - Math.random() * cvs.height * 0.3,
+      vx: (Math.random() - 0.5) * 6,
+      vy: (opts.vy || 3) + Math.random() * 4,
+      size: 5 + Math.random() * 8,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI * 2,
+      vr: (Math.random() - 0.5) * 0.3,
+      shape: Math.random() < 0.4 ? 'star' : (Math.random() < 0.5 ? 'square' : 'circle'),
+      gravity: opts.gravity || 0.12
+    });
+  }
+  var frame = 0;
+  function draw(){
+    ctx2d.clearRect(0, 0, cvs.width, cvs.height);
+    for(var i=0;i<parts.length;i++){
+      var p = parts[i];
+      p.vy += p.gravity; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      ctx2d.save();
+      ctx2d.translate(p.x, p.y);
+      ctx2d.rotate(p.rot);
+      ctx2d.fillStyle = p.color;
+      ctx2d.shadowColor = p.color;
+      ctx2d.shadowBlur = 10;
+      if(p.shape === 'star'){
+        var r1 = p.size * 0.5, r2 = r1 * 0.4;
+        ctx2d.beginPath();
+        for(var j=0;j<5;j++){
+          var a = (j * 72 - 90) * Math.PI / 180;
+          ctx2d.lineTo(Math.cos(a) * r1, Math.sin(a) * r1);
+          a = ((j * 72) + 36 - 90) * Math.PI / 180;
+          ctx2d.lineTo(Math.cos(a) * r2, Math.sin(a) * r2);
+        }
+        ctx2d.closePath();
+        ctx2d.fill();
+      } else if(p.shape === 'square'){
+        ctx2d.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+      } else {
+        ctx2d.beginPath();
+        ctx2d.arc(0, 0, p.size/2, 0, Math.PI*2);
+        ctx2d.fill();
+      }
+      ctx2d.restore();
+    }
+    frame++;
+    if(frame < 260) requestAnimationFrame(draw);
+    else ctx2d.clearRect(0, 0, cvs.width, cvs.height);
+  }
+  draw();
+}
+
+function emojiRain(emojis, count){
+  emojis = emojis || ['⭐','✨','🌟','🛡️'];
+  count = count || 20;
+  var container = $('emojiRain');
+  for(var i=0;i<count;i++){
+    (function(i){
+      setTimeout(function(){
+        var el = document.createElement('span');
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.cssText = 'position:fixed;top:-40px;left:' + (Math.random()*100) + 'vw;font-size:' + (20+Math.random()*18) + 'px;pointer-events:none;z-index:9998;animation:fallRain ' + (2.5+Math.random()*1.5) + 's linear forwards;';
+        container.appendChild(el);
+        setTimeout(function(){ el.remove(); }, 4200);
+      }, i * 55);
+    })(i);
+  }
+}
+var rainStyle = document.createElement('style');
+rainStyle.textContent = '@keyframes fallRain{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}';
+document.head.appendChild(rainStyle);
+
+function floatReward(text, x, y){
+  var el = document.createElement('span');
+  el.className = 'float-reward';
+  el.textContent = text;
+  el.style.left = (x - 15) + 'px';
+  el.style.top = y + 'px';
+  el.style.color = text.indexOf('+') === 0 ? '#10b981' : '#ef4444';
+  document.body.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 1600);
+}
+
+function initParticles(){
+  var colors = ['#22d3ee','#8b5cf6','#ec4899','#fbbf24'];
+  for(var i=0;i<25;i++){
+    var p = document.createElement('span');
+    p.className = 'particle';
+    p.style.left = (Math.random() * 100) + 'vw';
+    p.style.bottom = '-10px';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.boxShadow = '0 0 8px currentColor';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    document.body.appendChild(p);
+  }
+}
+
+/* ============================================================
+   TOAST
+============================================================ */
+var toastTimer = null;
+function showToast(text, type){
+  var el = $('toast');
+  el.textContent = text;
+  el.className = 'toast ' + (type || 'info');
+  void el.offsetWidth;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2200);
+}
+
+/* ============================================================
+   SCENARIOS DATA
+============================================================ */
+var SCENARIOS = {
+  kid: [
+    {
+      id: 'kid_stranger',
+      appIcon: '💬', appBg: 'linear-gradient(135deg,#22d3ee,#0e7490)',
+      appName: 'پیام‌ها', sender: 'کاربر ناشناس', time: 'الان',
+      preview: 'سلام! اسمت چیه؟ کجایی زندگی می‌کنی؟',
+      message: 'سلام دوست جدید! 😊\nمنم مثل تو بچه‌ام.\nاسمت چیه؟\nکدوم شهری زندگی می‌کنی؟',
+      choices: [
+        { icon:'💬', text:'اسم و شهرم رو می‌گم',
+          type:'risk',
+          warning:{
+            title:'این اطلاعات شخصیه!',
+            body:'اسم کامل، شهر و آدرس، <b>اطلاعات شخصی</b> تو هستن. هرگز اون‌ها رو به غریبه‌ها نگو، حتی اگه به نظر مهربون بیان.',
+            tip:'🌟 <b>راه درست:</b> می‌تونی بگی «من با غریبه‌ها اطلاعات شخصیم رو به اشتراک نمی‌ذارم» و بعد بلاکش کنی. بعدش هم به مامان یا بابا بگو.'
+          }
+        },
+        { icon:'🚫', text:'بلاکش می‌کنم و به مامان می‌گم',
+          type:'safe',
+          praise:{
+            title:'عالی! کارت درست بود',
+            body:'وقتی یه غریبه ازت اطلاعات شخصی می‌خواد، <b>بلاک کردن + گفتن به بزرگتر</b> بهترین کاره.',
+            tip:'تو یه <b>نگهبان هوشمند</b> هستی! 🌟'
+          }
+        },
+        { icon:'🙈', text:'نادیده می‌گیرم',
+          type:'hint',
+          hint:{
+            title:'یادت باشه 💡',
+            body:'نادیده گرفتن خوبه، ولی اگه پیام ادامه داشت، حتماً به یه بزرگتر بگو.',
+            tip:'هر پیام مشکوکی رو با بزرگترها در میون بذار 🤝'
+          }
+        }
+      ]
+    },
+    {
+      id: 'kid_prize',
+      appIcon: '🎁', appBg: 'linear-gradient(135deg,#fbbf24,#d97706)',
+      appName: 'تبلیغ', sender: 'سیستم جایزه', time: 'الان',
+      preview: '🎉 تبریک! برنده‌ی ۱۰۰۰ سکه شدی!',
+      message: '🎉🎉 تبریک!\nتو برنده‌ی ۱۰۰۰ سکه شدی!\nبرای دریافت جایزه، روی لینک زیر بزن:\n👉 freeprizewinner.com 👈',
+      choices: [
+        { icon:'👆', text:'کلیک می‌کنم ببینم چیه',
+          type:'risk',
+          warning:{
+            title:'کلیک نکن!',
+            body:'لینک‌های ناشناس می‌تونن <b>ویروس</b> داشته باشن یا اطلاعاتت رو بدزدن. این نوع پیام‌ها معمولاً <b>کلاهبرداری</b> هستن.',
+            tip:'🌟 <b>راه درست:</b> بستنش کن و به یه بزرگتر بگو. تو باید همیشه به جایزه‌های الکی شک کنی.'
+          }
+        },
+        { icon:'🚨', text:'پاکش می‌کنم و به بابا می‌گم',
+          type:'safe',
+          praise:{
+            title:'آفرین! تو هوشمندی!',
+            body:'شناختن لینک‌های فریبنده یه <b>مهارت مهم دیجیتالیه</b>!',
+            tip:'لینک‌های ناشناس رو همیشه پاک کن 🛡️'
+          }
+        },
+        { icon:'🤔', text:'شک می‌کنم ولی کلیک می‌کنم',
+          type:'risk',
+          warning:{
+            title:'شک کردی؟ پس کلیک نکن!',
+            body:'اگه شک داری یعنی یه چیزی درست نیست. <b>قلب درست کار اینه که به شک عمل کنی</b>.',
+            tip:'همیشه به شهودت اعتماد کن 🌟'
+          }
+        }
+      ]
+    },
+    {
+      id: 'kid_photo',
+      appIcon: '📸', appBg: 'linear-gradient(135deg,#ec4899,#be185d)',
+      appName: 'پیام‌ها', sender: 'کاربر ناشناس', time: 'الان',
+      preview: 'میشه یه عکس از خودت بفرستی؟',
+      message: 'سلام! تو خیلی باحالی 😊\nمی‌شه یه عکس از خودت بفرستی؟\nمن قول می‌دم به کسی نشون ندم! 🤞',
+      choices: [
+        { icon:'📤', text:'عکس می‌فرستم',
+          type:'risk',
+          warning:{
+            title:'عکس‌هات مال خودته!',
+            body:'عکس‌هات بخشی از <b>حریم خصوصی</b> تو هستن. هرگز عکس شخصی رو به کسی که نمی‌شناسی نفرست.',
+            tip:'🌟 <b>راه درست:</b> رد کن و به بزرگترت بگو. هیچ‌وقت به کسی که نمی‌شناسی اعتماد نکن.'
+          }
+        },
+        { icon:'❌', text:'رد می‌کنم و به بزرگتر می‌گم',
+          type:'safe',
+          praise:{
+            title:'عالی! کارت درست بود',
+            body:'تو داری از <b>حریم خصوصی</b> خودت محافظت می‌کنی. این کار خیلی شجاعانه‌ست.',
+            tip:'هرگز به کسی که نمی‌شناسی عکس نفرست 🌟'
+          }
+        },
+        { icon:'💬', text:'می‌پرسم چرا می‌خوای؟',
+          type:'hint',
+          hint:{
+            title:'سؤال خوبی پرسیدی!',
+            body:'پرسیدن چرا کار درستیه، ولی <b>حتی اگه دلیل قانع‌کننده‌ای هم آورد، عکس نفرست</b>.',
+            tip:'با بزرگترها مشورت کن 🤝'
+          }
+        }
+      ]
+    },
+    {
+      id: 'kid_password',
+      appIcon: '🔐', appBg: 'linear-gradient(135deg,#10b981,#047857)',
+      appName: 'بازی', sender: 'دوست بازی', time: 'الان',
+      preview: 'بیا رمزهامون رو به هم بگیم!',
+      message: 'سلام رفیق! 🎮\nبیا رمزهامون رو به هم بگیم که نشونه‌ی رفاقت باشه!\nرمز من: 1234\nتو چی؟ 😊',
+      choices: [
+        { icon:'🔓', text:'رمزمو بهش می‌گم',
+          type:'risk',
+          warning:{
+            title:'رمز عبورت مثل مسواکته!',
+            body:'رمز عبور <b>فقط مال خودته</b>. حتی به بهترین دوستت هم نگو. اگه کسی رمزت رو بدونه، می‌تونه به حساب‌هات دسترسی پیدا کنه.',
+            tip:'🌟 <b>راه درست:</b> مؤدبانه بگو «رمز یه چیز خصوصیه» و به بزرگترت بگو.'
+          }
+        },
+        { icon:'🛡️', text:'می‌گم رمز یه چیز خصوصیه',
+          type:'safe',
+          praise:{
+            title:'عالی! مرزت رو حفظ کردی',
+            body:'حفظ کردن <b>مرزهای شخصی</b> خیلی مهمه. حتی با دوست‌های نزدیک هم رمز عبور رو به اشتراک نمی‌ذاریم.',
+            tip:'تو یه <b>قهرمان امنیت</b> هستی! 🌟'
+          }
+        },
+        { icon:'🗣️', text:'به مامانم می‌گم دوستم چنین چیزی خواسته',
+          type:'safe',
+          praise:{
+            title:'کار درستی کردی!',
+            body:'گفتن این موضوع به والدین، هم از تو محافظت می‌کنه هم به دوستت یاد می‌ده که این کار درست نیست.',
+            tip:'تو یه <b>دوست واقعی</b> هستی 🤝'
+          }
+        }
+      ]
+    },
+    {
+      id: 'kid_bully',
+      appIcon: '😢', appBg: 'linear-gradient(135deg,#6b7280,#374151)',
+      appName: 'گروه کلاسی', sender: 'کاربر قلدر', time: 'الان',
+      preview: 'تو احمقی! هیچ‌کس دوستت نداره!',
+      message: 'هه‌هه تو خیلی بچه‌ای!\nهمه ازت بدشون میاد!\nهیچ‌کس دوستت نداره! 😂',
+      choices: [
+        { icon:'😠', text:'جوابش رو با فحش می‌دم',
+          type:'risk',
+          warning:{
+            title:'جواب دادن با بدی، بدترش می‌کنه!',
+            body:'وقتی کسی توی اینترنت اذیتت می‌کنه، جواب دادن با عصبانیت فقط <b>وضع رو بدتر می‌کنه</b>. این کار اسمش <b>قلدری اینترنتی</b> هست.',
+            tip:'🌟 <b>راه درست:</b> بلاکش کن، اسکرین‌شات بگیر و به یه بزرگتر نشون بده.'
+          }
+        },
+        { icon:'🛑', text:'بلاکش می‌کنم و به بزرگتر می‌گم',
+          type:'safe',
+          praise:{
+            title:'آفرین! کار درستی کردی',
+            body:'بلاک کردن + گزارش دادن، بهترین راه برخورد با <b>قلدری اینترنتی</b> است.',
+            tip:'تو قوی‌تر از اون هستی! 💪'
+          }
+        },
+        { icon:'😢', text:'ساکت می‌مونم و ناراحت می‌شم',
+          type:'hint',
+          hint:{
+            title:'سکوت راه‌حل نیست',
+            body:'ناراحتی‌ات طبیعیه ولی <b>سکوت کردن مشکل رو حل نمی‌کنه</b>. با یه بزرگتر حرف بزن.',
+            tip:'حرف زدن، خودش یه نوع شجاعته 💙'
+          }
+        }
+      ]
+    }
+  ],
+  tween: [
+    {
+      id: 'tw_phishing',
+      appIcon: '📧', appBg: 'linear-gradient(135deg,#ef4444,#991b1b)',
+      appName: 'ایمیل', sender: 'بانک ملی (جعلی)', time: 'الان',
+      preview: 'حساب شما مسدود می‌شود! فوری وارد شوید',
+      message: 'کاربر گرامی،\nحساب بانکی شما به دلیل فعالیت مشکوک <b>مسدود</b> خواهد شد.\nبرای جلوگیری، همین الان روی لینک زیر کلیک کنید:\n\n👉 bank-melli-verify.xyz 👈\n\n⚠️ فقط ۲۴ ساعت فرصت دارید!',
+      choices: [
+        { icon:'👆', text:'سریع کلیک می‌کنم',
+          type:'risk',
+          warning:{
+            title:'این یه فیشینگه!',
+            body:'به این نوع ایمیل‌ها <b>فیشینگ (Phishing)</b> می‌گن. مهاجم‌ها خودشون رو جای بانک یا شرکت‌های معتبر جا می‌زنن تا اطلاعاتت رو بدزدن.',
+            tip:'🌟 <b>راه درست:</b> هیچ‌وقت روی لینک ایمیل‌های مشکوک کلیک نکن. مستقیم به سایت بانک برو و خبر بگیر. این ایمیل رو هم گزارش بده.'
+          }
+        },
+        { icon:'🔍', text:'آدرس ایمیل فرستنده رو بررسی می‌کنم',
+          type:'safe',
+          praise:{
+            title:'عالی! مثل یه کارآگاه فکر می‌کنی',
+            body:'بررسی <b>آدرس ایمیل فرستنده</b> اولین قدم برای شناسایی فیشینگه. اگه آدرس یه کم مشکوک باشه (مثل bank-melli-verify.xyz)، قطعاً جعلیه.',
+            tip:'آدرس ایمیل رسمی بانک‌ها معمولاً ساده و کوتاهه 🔍'
+          }
+        },
+        { icon:'🚨', text:'به مامان یا بابا نشون می‌دم',
+          type:'safe',
+          praise:{
+            title:'آفرین! کار درست',
+            body:'نشون دادن این ایمیل‌ها به والدین، بهترین کار ممکنه. اونا می‌تونن گزارشش کنن.',
+            tip:'تو یه <b>نگهبان واقعی</b> هستی! 🌟'
+          }
+        }
+      ]
+    },
+    {
+      id: 'tw_friend',
+      appIcon: '👤', appBg: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+      appName: 'شبکه اجتماعی', sender: 'sara_1389_iran', time: '۲ دقیقه پیش',
+      preview: 'می‌خواد دوستت بشه (بدون عکس، ۰ دوست مشترک)',
+      message: 'سلام عزیزم! 😊\nپروفایلت رو دیدم، خوشم اومد.\nمن سارام، از مدرسه‌ی دیگه‌ام.\nمی‌خوای با هم دوست بشیم؟\nراستی، تو از کدوم مدرسه‌ای؟',
+      choices: [
+        { icon:'✅', text:'قبولش می‌کنم و مدرسه‌ام رو می‌گم',
+          type:'risk',
+          warning:{
+            title:'مواظب باش!',
+            body:'قبول کردن دوستی با کسی که <b>عکس نداره و دوست مشترک نداره</b> خطرناکه. مدرسه هم اطلاعات شخصیه!',
+            tip:'🌟 <b>راه درست:</b> اول پروفایلش رو بررسی کن، یا با یه بزرگتر مشورت کن. به هیچ‌وجه مدرسه‌ات رو نگو.'
+          }
+        },
+        { icon:'🔍', text:'اول پروفایلش رو بررسی می‌کنم',
+          type:'safe',
+          praise:{
+            title:'آفرین! تصمیم عاقلانه',
+            body:'قبل از قبول دوستی، <b>بررسی پروفایل</b> و مشورت با والدین مهمه. پروفایل بدون عکس و دوست مشترک، نشونه‌ی خطرناکیه.',
+            tip:'تو داری مثل یه <b>کارآگاه دیجیتال</b> فکر می‌کنی! 🔍'
+          }
+        },
+        { icon:'❌', text:'ردش می‌کنم',
+          type:'hint',
+          hint:{
+            title:'خیلی خوب!',
+            body:'رد کردن دوستی با غریبه‌ها کار درستیه. ولی حتماً به یه بزرگتر هم بگو که چنین درخواستی اومده.',
+            tip:'والدینت رو در جریان بذار 🤝'
+          }
+        }
+      ]
+    },
+    {
+      id: 'tw_game',
+      appIcon: '🎮', appBg: 'linear-gradient(135deg,#0ea5e9,#0369a1)',
+      appName: 'بازی آنلاین', sender: 'Player_Pro_2024', time: 'الان',
+      preview: 'می‌خوای اکانت من رو بگیری؟ خیلی قویه!',
+      message: 'سلام رفیق! 🎮\nمی‌خوای اکانت من رو بگیری؟\nهمه‌ی سلاح‌ها رو داره!\nفقط کافیه اطلاعات حساب کاربریت رو بدی: نام کاربری + رمز عبور + ایمیل 📧',
+      choices: [
+        { icon:'🎁', text:'آره، می‌خوام اکانت قوی داشته باشم',
+          type:'risk',
+          warning:{
+            title:'این یه تله است!',
+            body:'هیچ‌وقت اطلاعات حساب کاربریت (نام کاربری، رمز، ایمیل) رو به کسی نده. این نوع پیشنهادها معمولاً برای <b>دزدیدن اکانت</b> هستن.',
+            tip:'🌟 <b>راه درست:</b> قبول نکن و به والدینت بگو. اگه اکانتت به ایمیل یا شماره موبایل بابا وصله، می‌تونه خطر بزرگ‌تری باشه.'
+          }
+        },
+        { icon:'🚫', text:'رد می‌کنم و به بابا می‌گم',
+          type:'safe',
+          praise:{
+            title:'عالی! مراقب خودت هستی',
+            body:'شناخت این نوع <b>کلاهبرداری در بازی‌ها</b> مهارت مهمیه. تو داری از اطلاعات خودت محافظت می‌کنی.',
+            tip:'به هیچ‌وجه اطلاعات حساب رو به کسی نده 🌟'
+          }
+        },
+        { icon:'❓', text:'می‌پرسم چرا می‌خوای این کار رو بکنی',
+          type:'hint',
+          hint:{
+            title:'سؤال هوشمندانه',
+            body:'پرسیدن چرا خوبه، ولی اگه جواب هم داد، <b>اصلاً اطلاعاتت رو نده</b>.',
+            tip:'هیچ دلیلی برای دادن رمزت معتبر نیست 🛡️'
+          }
+        }
+      ]
+    },
+    {
+      id: 'tw_privacy',
+      appIcon: '⚙️', appBg: 'linear-gradient(135deg,#64748b,#334155)',
+      appName: 'تنظیمات', sender: 'سیستم', time: 'الان',
+      preview: 'پروفایل شما برای همه قابل مشاهده است',
+      message: '⚠️ توجه!\nپروفایل شما در حال حاضر <b>عمومی</b> است.\nیعنی هر کسی می‌تونه عکس‌ها، پست‌ها و اطلاعات شما رو ببینه، حتی غریبه‌ها.\n\nمی‌خوای چیکار کنی؟',
+      choices: [
+        { icon:'😐', text:'مهم نیست، بذار بمونه',
+          type:'risk',
+          warning:{
+            title:'حریم خصوصیت مهمه!',
+            body:'وقتی پروفایلت عمومیه، <b>هر کسی</b> می‌تونه اطلاعات و عکس‌هات رو ببینه. این می‌تونه خطرناک باشه.',
+            tip:'🌟 <b>راه درست:</b> تنظیمات رو به «فقط دوستان» تغییر بده. همچنین قبل از انتشار هر عکس، خوب فکر کن.'
+          }
+        },
+        { icon:'🔒', text:'پروفایلم رو خصوصی می‌کنم',
+          type:'safe',
+          praise:{
+            title:'آفرین! کار درستی کردی',
+            body:'خصوصی کردن پروفایل، از تو و اطلاعاتت محافظت می‌کنه. این یه <b>مهارت امنیتی مهم</b> است.',
+            tip:'تنظیمات حریم خصوصیت رو همیشه بررسی کن 🔒'
+          }
+        },
+        { icon:'🤔', text:'می‌پرسم چرا باید خصوصی کنم',
+          type:'hint',
+          hint:{
+            title:'سؤال خوبی',
+            body:'پرسیدن خوبه، ولی یادت باشه: <b>پروفایل عمومی = خطر بیشتر برای تو</b>.',
+            tip:'همیشه پروفایلت رو محدود به دوستان کن 💡'
+          }
+        }
+      ]
+    },
+    {
+      id: 'tw_cyberbully',
+      appIcon: '😠', appBg: 'linear-gradient(135deg,#dc2626,#7f1d1d)',
+      appName: 'گروه', sender: 'کاربر قلدر', time: 'الان',
+      preview: 'همه بهش بخندید! یه عکس بامزه ازش دارم',
+      message: 'بچه‌ها نگاه کنید!\nاز این بچه یه عکس خنده‌دار دارم!\nبیاید بهش بخندیم و بذاریمش توی گروه! 😂😈\nکی می‌خواد بفرستم؟',
+      choices: [
+        { icon:'😂', text:'آره بفرست بخندیم',
+          type:'risk',
+          warning:{
+            title:'قلدری اینترنتی!',
+            body:'این کار <b>قلدری اینترنتی (Cyberbullying)</b> است. حتی اگه بامزه به نظر برسه، برای اون بچه <b>خیلی دردناک</b> می‌تونه باشه.',
+            tip:'🌟 <b>راه درست:</b> توی این نوع گفتگو شرکت نکن، مخالفت کن و به یه بزرگتر خبر بده.'
+          }
+        },
+        { icon:'🛑', text:'مخالفت می‌کنم و از گروه خارج می‌شم',
+          type:'safe',
+          praise:{
+            title:'عالی! تو یه رهبر واقعی هستی',
+            body:'مخالفت کردن با قلدری، شجاعت می‌خواد. تو داری از کسی محافظت می‌کنی که شاید تنهاترین آدم باشه.',
+            tip:'تو یه <b>قهرمان واقعی</b> هستی! 🌟'
+          }
+        },
+        { icon:'🚨', text:'به معلم یا والدینم خبر می‌دم',
+          type:'safe',
+          praise:{
+            title:'کار درستی کردی!',
+            body:'خبر دادن به بزرگ‌ترها، جلوی آسیب بیشتر به اون بچه رو می‌گیره.',
+            tip:'وقتی چیزی اشتباهه، سکوت نکن 📢'
+          }
+        }
+      ]
+    }
+  ],
+  teen: [
+    {
+      id: 'tn_catfish',
+      appIcon: '💗', appBg: 'linear-gradient(135deg,#ec4899,#be185d)',
+      appName: 'دیتینگ', sender: 'کاربر ناشناس', time: 'الان',
+      preview: 'تو خیلی خاصی... بیا خارج از برنامه چت کنیم',
+      message: 'سلام عزیزم 💗\nتو واقعاً خاصی. چند وقته دارم پروفایلت رو نگاه می‌کنم.\nمنم عاشق کتاب و موسیقی‌ام.\nبیا از این برنامه بریم واتساپ یا تلگرام، اینجا امن نیست.\nشماره‌ت رو بده 💕',
+      choices: [
+        { icon:'📱', text:'شماره‌ام رو می‌دم و می‌ریم واتساپ',
+          type:'risk',
+          warning:{
+            title:'این یه Catfishing هست!',
+            body:'مهاجم‌ها با هویت جعلی و رابطه‌ی احساسی می‌خوان تو رو به <b>یه محیط خارج از کنترل</b> بکشن. این کار اسمش <b>Catfishing</b> است.',
+            tip:'🌟 <b>راه درست:</b> شماره یا اطلاعات شخصی رو به کسی که حضوری ندیدی نده. این پروفایل رو هم به یه بزرگتر گزارش بده.'
+          }
+        },
+        { icon:'🛡️', text:'رد می‌کنم و به والدین می‌گم',
+          type:'safe',
+          praise:{
+            title:'عالی! هوشمندانه فکر کردی',
+            body:'شناخت الگوهای <b>Catfishing</b> یه مهارت پیشرفته‌ست. مهاجم‌ها از عشق و احساسات برای سوءاستفاده استفاده می‌کنن.',
+            tip:'هیچ‌وقت با کسی که حضوری ندیدی، رابطه‌ی عاطفی جدی نساز 🛡️'
+          }
+        },
+        { icon:'🚫', text:'بلاکش می‌کنم بدون پاسخ',
+          type:'safe',
+          praise:{
+            title:'کار درست!',
+            body:'بلاک کردن مستقیم و بدون درگیر شدن، بهترین راهه. ولی <b>بهتره به والدین هم بگی</b> که چنین چیزی دیدی.',
+            tip:'گزارش دادن، یه نوع محافظت از خودت و بقیه‌ست 🤝'
+          }
+        }
+      ]
+    },
+    {
+      id: 'tn_job',
+      appIcon: '💼', appBg: 'linear-gradient(135deg,#0ea5e9,#0369a1)',
+      appName: 'ایمیل', sender: 'job-offers@gmail.com', time: 'الان',
+      preview: 'شغل پاره‌وقت با درآمد ۵ میلیون!',
+      message: 'سلام،\nما یه فرصت شغلی عالی برای نوجوان‌ها داریم!\nکار در منزل، ۲ ساعت در روز، ماهانه ۵ میلیون تومان! 💰\n\nفقط برای ثبت‌نام، شماره کارت بانکی‌ات رو بفرست تا حقوق رو بریزیم.\nسریع باش! ظرفیت محدود! ⏰',
+      choices: [
+        { icon:'💰', text:'حساب بانکی‌ام رو می‌دم',
+          type:'risk',
+          warning:{
+            title:'تله‌ی پول‌شویی!',
+            body:'این نوع پیشنهادها معمولاً برای <b>سوءاستفاده از حساب بانکی</b> هستن. اگه اطلاعات بانکی‌ات رو بدی، ممکنه در فعالیت‌های غیرقانونی گرفتار بشی.',
+            tip:'🌟 <b>راه درست:</b> هیچ‌وقت اطلاعات بانکی‌ات رو برای «شغل» به کسی نده. این ایمیل رو گزارش کن و به والدینت بگو.'
+          }
+        },
+        { icon:'🔍', text:'درباره‌ی این شرکت تحقیق می‌کنم',
+          type:'safe',
+          praise:{
+            title:'عالی! مثل یه حرفه‌ای فکر می‌کنی',
+            body:'قبل از هر همکاری، <b>تحقیق درباره‌ی شرکت</b> اولین قدمه. اگه آدرس ایمیل رسمی نیست (مثل gmail)، قطعاً مشکوکه.',
+            tip:'هیچ شرکت معتبری با ایمیل شخصی استخدام نمی‌کنه 🔍'
+          }
+        },
+        { icon:'🚨', text:'به والدینم نشون می‌دم',
+          type:'safe',
+          praise:{
+            title:'کار درست',
+            body:'نشون دادن این نوع پیشنهادها به والدین، بهترین کار ممکنه.',
+            tip:'هر پیشنهاد شغلی مشکوک رو با والدینت در میون بذار 🌟'
+          }
+        }
+      ]
+    },
+    {
+      id: 'tn_social',
+      appIcon: '📱', appBg: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
+      appName: 'اینستاگرام', sender: 'پیام مستقیم', time: 'الان',
+      preview: 'یه فرصت مدلینگ برات دارم!',
+      message: 'سلام! 😊\nمن مدیر یه آژانس مدلینگ معتبرم.\nاز عکس‌هات خیلی خوشم اومد!\nمی‌خوای مدل بشی؟\nفقط چند تا عکس خصوصی بفرست تا بررسی کنم.\nبهت قرارداد میلیونی می‌دیم 💵✨',
+      choices: [
+        { icon:'📤', text:'عکس‌های خصوصی می‌فرستم',
+          type:'risk',
+          warning:{
+            title:'این یه تله است!',
+            body:'مهاجم‌ها با وعده‌ی شهرت، پول و فرصت‌های شغلی، از نوجوانان <b>عکس خصوصی</b> می‌گیرن و بعد تهدیدشون می‌کنن. این نوع کلاهبرداری خیلی رایجه.',
+            tip:'🌟 <b>راه درست:</b> هیچ‌وقت عکس خصوصی نفرست. آژانس‌های واقعی از طریق سایت رسمی و قرارداد حضوری کار می‌کنن.'
+          }
+        },
+        { icon:'🔍', text:'درباره‌ی این آژانس تحقیق می‌کنم',
+          type:'safe',
+          praise:{
+            title:'عالی! تصمیم حرفه‌ای',
+            body:'قبل از هر همکاری، <b>تحقیق درباره‌ی طرف مقابل</b> ضروریه. اگه سایت رسمی، آدرس یا شماره ثابت نداره، قطعاً کلاهبرداریه.',
+            tip:'آژانس‌های واقعی از اینستاگرام استخدام نمی‌کنن 🌟'
+          }
+        },
+        { icon:'🚫', text:'رد می‌کنم و گزارشش می‌دم',
+          type:'safe',
+          praise:{
+            title:'کار درست!',
+            body:'گزارش دادن به اینستاگرام باعث میشه بقیه‌ی نوجوان‌ها هم در امان باشن.',
+            tip:'هر پیام مشکوک رو گزارش بده 🤝'
+          }
+        }
+      ]
+    },
+    {
+      id: 'tn_footprint',
+      appIcon: '👣', appBg: 'linear-gradient(135deg,#f59e0b,#b45309)',
+      appName: 'پست', sender: 'سیستم', time: 'الان',
+      preview: 'پست شما در حال انتشار برای همه است',
+      message: '📢 توجه!\nشما در حال انتشار این پست هستید:\n\n«امروز با خانواده رفتیم مسافرت 🏖️\nهتل ما آدرسش: خیابان ...\nتا یک هفته اینجاییم!»\n\nاین پست <b>برای همه</b> قابل مشاهده است.\nآیا مطمئنی؟',
+      choices: [
+        { icon:'✅', text:'انتشار می‌دم',
+          type:'risk',
+          warning:{
+            title:'اثر انگشت دیجیتال!',
+            body:'اطلاعات سفر و آدرس، می‌تونه <b>خطر امنیتی</b> داشته باشه. حتی اگه بعداً پاک کنی، ممکنه در کش سرورها باقی بمونه. به این می‌گن <b>اثر انگشت دیجیتال</b>.',
+            tip:'🌟 <b>راه درست:</b> هیچ‌وقت مکان و زمان دقیق سفرت رو پخش نکن. عکس‌ها رو هم بعد از سفر به اشتراک بذار.'
+          }
+        },
+        { icon:'✏️', text:'ویرایشش می‌کنم و آدرس رو حذف می‌کنم',
+          type:'safe',
+          praise:{
+            title:'آفرین! آگاهانه عمل کردی',
+            body:'حذف اطلاعات حساس از پست، نشونه‌ی <b>آگاهی دیجیتال</b> بالاست.',
+            tip:'همیشه قبل از انتشار، از خودت بپرس: «آیا این اطلاعات می‌تونه خطری ایجاد کنه؟» 🛡️'
+          }
+        },
+        { icon:'🚫', text:'کلاً منتشر نمی‌کنم',
+          type:'safe',
+          praise:{
+            title:'عالی!',
+            body:'گاهی بهترین تصمیم اینه که اصلاً منتشر نکنی. این آگاهی، تو رو از خطر دور نگه می‌داره.',
+            tip:'کیفیت زندگی، به اشتراک‌گذاری هر لحظه نیست 🌟'
+          }
+        }
+      ]
+    },
+    {
+      id: 'tn_dark',
+      appIcon: '🌐', appBg: 'linear-gradient(135deg,#374151,#111827)',
+      appName: 'مرورگر', sender: 'سیستم', time: 'الان',
+      preview: 'آیا می‌خواهید وارد این سایت شوید؟',
+      message: '⚠️ هشدار مرورگر!\nسایتی که می‌خواهید باز کنید در فهرست سایت‌های <b>مشکوک</b> قرار دارد.\nآدرس: dark-secret-forum.onion\n\nممکنه حاوی محتوای نامناسب، بدافزار یا کلاهبرداری باشه.',
+      choices: [
+        { icon:'👆', text:'باز می‌کنم ببینم چیه',
+          type:'risk',
+          warning:{
+            title:'وارد نشو!',
+            body:'این نوع سایت‌ها معمولاً حاوی <b>محتوای خطرناک، بدافزار یا کلاهبرداری</b> هستن. ورود بهشون می‌تونه دستگاهت رو آلوده کنه یا درگیر مسائل قانونی‌ات کنه.',
+            tip:'🌟 <b>راه درست:</b> ببندش و اگه از طرف دوستی فرستاده شده، بهش بگو این نوع لینک‌ها خطرناکن.'
+          }
+        },
+        { icon:'🚫', text:'می‌بندمش',
+          type:'safe',
+          praise:{
+            title:'عالی! تصمیم عاقلانه',
+            body:'اعتماد به <b>هشدارهای مرورگر</b> نشونه‌ی بلوغ دیجیتالیه.',
+            tip:'مرورگرها معمولاً از تو محافظت می‌کنن 🌟'
+          }
+        },
+        { icon:'📞', text:'به یه بزرگتر می‌گم که چنین لینکی برام اومده',
+          type:'safe',
+          praise:{
+            title:'کار درستی',
+            body:'گزارش دادن این لینک، هم از تو محافظت می‌کنه هم از بقیه.',
+            tip:'هر لینک مشکوکی رو با بزرگترها در میون بذار 🤝'
+          }
+        }
+      ]
+    },
+    {
+      id: 'tn_piracy',
+      appIcon: '⬇️', appBg: 'linear-gradient(135deg,#7c3aed,#4c1d95)',
+      appName: 'دانلود', sender: 'سایت رایگان', time: 'الان',
+      preview: 'دانلود رایگان فیلم و بازی!',
+      message: '🎬 دانلود رایگان جدیدترین فیلم‌ها!\n🎮 جدیدترین بازی‌ها به صورت رایگان!\n📱 بدون فیلتر، بدون محدودیت!\n\nبرای شروع، فقط نرم‌افزار زیر رو دانلود کن:\n👉 free-download-fast.zip 👈\n\nهمه‌چیز رایگان! 😍',
+      choices: [
+        { icon:'⬇️', text:'دانلود می‌کنم',
+          type:'risk',
+          warning:{
+            title:'خطر بدافزار!',
+            body:'دانلود از سایت‌های ناشناس معمولاً با <b>بدافزار، تروجان یا باج‌گیر</b> همراهه. حتی فایل‌های zip می‌تونن خطرناک باشن.',
+            tip:'🌟 <b>راه درست:</b> فقط از منابع رسمی دانلود کن. محتوای رایگان غیرقانونی، می‌تونه هزینه‌ی گزافی داشته باشه.'
+          }
+        },
+        { icon:'💳', text:'اول بخونم چی می‌خواد',
+          type:'hint',
+          hint:{
+            title:'هوشمندانه‌ست، ولی...',
+            body:'خوندن شرایط خوبه، ولی این نوع سایت‌ها معمولاً شرایطشون <b>قابل اعتماد نیست</b>.',
+            tip:'به جای دنبال کردن این سایت‌ها، از منابع رسمی استفاده کن 💡'
+          }
+        },
+        { icon:'❌', text:'می‌بندمش',
+          type:'safe',
+          praise:{
+            title:'عالی! تصمیم درست',
+            body:'فقط از منابع رسمی مثل Google Play، App Store یا سایت‌های شناخته‌شده دانلود کن.',
+            tip:'امنیت دستگاهت، از دانلود رایگان مهم‌تره 🌟'
+          }
+        }
+      ]
+    }
+  ]
+};
+
+/* ============================================================
+   ACHIEVEMENTS
+============================================================ */
+var ACHIEVEMENTS = [
+  { id:'first_step', emoji:'🌟', name:'اولین قدم', desc:'اولین پیام رو مدیریت کردی', check: function(s){ return s.handled >= 1; } },
+  { id:'guardian', emoji:'🛡️', name:'نگهبان', desc:'۳ پیام رو درست مدیریت کردی', check: function(s){ return s.handled >= 3; } },
+  { id:'expert', emoji:'🏆', name:'متخصص', desc:'همه‌ی پیام‌ها رو مدیریت کردی', check: function(s){ return s.handled >= s.totalScenarios; } },
+  { id:'no_mistake', emoji:'👑', name:'بی‌نقص', desc:'بدون هیچ خطایی کامل کردی', check: function(s){ return s.mistakes === 0 && s.handled >= s.totalScenarios; } },
+  { id:'shield_master', emoji:'🛡️', name:'سپردار', desc:'۵ سپر گرفتی', check: function(s){ return s.shield >= 5; } },
+  { id:'learner', emoji:'💡', name:'یادگیرنده', desc:'از اشتباهات یاد گرفتی', check: function(s){ return s.mistakes >= 1 && s.mistakes <= 3 && s.handled >= 4; } },
+  { id:'curious', emoji:'🔍', name:'کنجکاو', desc:'راهنمای میدانی رو باز کردی', check: function(s){ return s.guideOpened >= 1; } },
+  { id:'perfect_finish', emoji:'🎖️', name:'قهرمان نهایی', desc:'با ۵+ سپر و بدون خطا', check: function(s){ return s.shield >= 5 && s.mistakes === 0; } }
+];
+
+/* ============================================================
+   FIELD GUIDE
+============================================================ */
+var GUIDE_ITEMS = [
+  { emoji:'🔒', title:'اطلاعات شخصی', text:'اسم کامل، آدرس، شماره تلفن، مدرسه و عکس‌های شخصی، جزو اطلاعات شخصی هستن. هرگز اون‌ها رو به غریبه‌ها توی اینترنت نده.', type:'warning' },
+  { emoji:'🎣', title:'فیشینگ چیه؟', text:'به پیام‌ها یا ایمیل‌های جعلی که خودشون رو جای بانک یا شرکت معتبر جا می‌زنن می‌گن فیشینگ. همیشه آدرس فرستنده رو بررسی کن.', type:'warning' },
+  { emoji:'🔐', title:'رمز عبور قوی', text:'رمز عبور باید حداقل ۱۲ کاراکتر داشته باشه، شامل حروف بزرگ، کوچک، عدد و علامت. هرگز رمزت رو با کسی به اشتراک نذار.', type:'safe' },
+  { emoji:'👣', title:'اثر انگشت دیجیتال', text:'هر چیزی که توی اینترنت به اشتراک می‌ذاری، برای همیشه باقی می‌مونه. قبل از انتشار هر چیزی، خوب فکر کن.', type:'warning' },
+  { emoji:'👤', title:'غریبه‌ها توی اینترنت', text:'هر کسی توی اینترنت می‌تونه هویت جعلی داشته باشه. هرگز با کسی که حضوری ندیدی، رابطه‌ی نزدیک نساز.', type:'warning' },
+  { emoji:'🛑', title:'قلدری اینترنتی', text:'اگه کسی توی اینترنت اذیتت می‌کنه، بلاکش کن، اسکرین‌شات بگیر و به یه بزرگتر نشون بده. سکوت راه‌حل نیست.', type:'safe' },
+  { emoji:'🎁', title:'جایزه‌های الکی', text:'«برنده شدی!» یا «۱۰۰۰ سکه رایگان!» معمولاً کلاهبرداریه. روی هیچ لینک ناشناسی کلیک نکن.', type:'warning' },
+  { emoji:'📱', title:'تنظیمات حریم خصوصی', text:'پروفایل‌های شبکه‌های اجتماعیت رو «خصوصی» کن. اینطوری فقط دوستات می‌تونن پست‌هات رو ببینن.', type:'safe' },
+  { emoji:'💼', title:'پیشنهادهای شغلی مشکوک', text:'اگه کسی بهت پیشنهاد شغل با پول زیاد داد و اطلاعات بانکی خواست، بدون کلاهبرداریه. این پیشنهادها رو به والدینت گزارش بده.', type:'warning' },
+  { emoji:'💬', title:'گفتن به بزرگترها', text:'مهم‌ترین مهارت امنیتی، گفتن به بزرگترهاست. هر چیزی که توی اینترنت مشکوک به نظرت رسید، با یه بزرگتر در میون بذار.', type:'safe' }
+];
+
+/* ============================================================
+   STATE
+============================================================ */
+var state = {
+  name: '',
+  age: 'kid',
+  scenarios: [],
+  currentIndex: 0,
+  handled: 0,
+  totalScenarios: 0,
+  shield: 0,
+  mistakes: 0,
+  done: [],
+  guideOpened: 0,
+  badges: [],
+  history: []
+};
+
+/* ============================================================
+   GUARDIAN
+============================================================ */
+var guardianEl = $('guardian');
+var guardianBubble = $('guardianBubble');
+var guardianTimer = null;
+
+function guardianShow(){
+  guardianEl.classList.add('active');
+}
+function guardianHide(){
+  guardianEl.classList.remove('active');
+}
+function setGuardianState(state){
+  guardianEl.className = 'guardian active';
+  if(state === 'alert') guardianEl.classList.add('alert');
+  else if(state === 'happy') guardianEl.classList.add('happy');
+}
+function guardianSay(text, duration){
+  duration = duration || 3000;
+  guardianBubble.innerHTML = text;
+  guardianBubble.classList.add('show');
+  clearTimeout(guardianTimer);
+  guardianTimer = setTimeout(function(){
+    guardianBubble.classList.remove('show');
+  }, duration);
+}
+guardianEl.addEventListener('click', function(){
+  sTap();
+  guardianSay('من همیشه مراقبتم! اگه سؤالی داشتی، از من بپرس 🌟', 3000);
+});
+
+/* ============================================================
+   UPDATE HUD
+============================================================ */
+function updateHud(){
+  $('hudShieldVal').textContent = toFa(state.shield);
+  $('hudMistakeVal').textContent = toFa(state.mistakes);
+  $('hudName').textContent = state.name || 'سایبرلند';
+
+  var pct = state.totalScenarios > 0 ? (state.handled / state.totalScenarios) * 100 : 0;
+  $('progressFill').style.width = pct + '%';
+}
+
+function popHudStat(id){
+  var el = $(id);
+  if(!el) return;
+  el.classList.add('pop');
+  setTimeout(function(){ el.classList.remove('pop'); }, 300);
+}
+
+/* ============================================================
+   PHONE RENDER
+============================================================ */
+var phoneContent = $('phoneContent');
+
+function renderFeed(){
+  phoneContent.innerHTML = '';
+  var feed = document.createElement('div');
+  feed.className = 'notif-feed';
+
+  // Header
+  var header = document.createElement('div');
+  header.className = 'feed-header';
+  header.textContent = 'پیام‌های امروز';
+  feed.appendChild(header);
+
+  // Pending scenarios
+  var pending = state.scenarios.filter(function(s){ return state.done.indexOf(s.id) === -1; });
+  var doneList = state.scenarios.filter(function(s){ return state.done.indexOf(s.id) !== -1; });
+
+  pending.forEach(function(sc, i){
+    var card = document.createElement('div');
+    card.className = 'notif-card urgent';
+    card.style.animationDelay = (i * 0.08) + 's';
+    card.setAttribute('data-id', sc.id);
+    card.innerHTML =
+      '<div class="nc-app" style="background:' + sc.appBg + '">' + sc.appIcon + '</div>' +
+      '<div class="nc-body">' +
+        '<div class="nc-row">' +
+          '<div class="nc-sender">' + sc.sender + '</div>' +
+          '<div class="nc-time">' + sc.time + '</div>' +
+        '</div>' +
+        '<div class="nc-preview">' + sc.preview + '</div>' +
+      '</div>' +
+      '<div class="nc-arrow">←</div>';
+    feed.appendChild(card);
+  });
+
+  // Done section
+  if(doneList.length > 0){
+    var doneHeader = document.createElement('div');
+    doneHeader.className = 'feed-header';
+    doneHeader.style.marginTop = '8px';
+    doneHeader.textContent = 'مهارت‌های یادگرفته';
+    feed.appendChild(doneHeader);
+
+    doneList.forEach(function(sc){
+      var card = document.createElement('div');
+      card.className = 'notif-card done';
+      card.innerHTML =
+        '<div class="nc-app" style="background:' + sc.appBg + '">' + sc.appIcon + '</div>' +
+        '<div class="nc-body">' +
+          '<div class="nc-row">' +
+            '<div class="nc-sender">' + sc.appName + '</div>' +
+          '</div>' +
+          '<div class="nc-preview">آفرین! این مورد رو یاد گرفتی 💪</div>' +
+        '</div>';
+      feed.appendChild(card);
+    });
+  }
+
+  // All done
+  if(pending.length === 0 && doneList.length === state.scenarios.length){
+    var completeDiv = document.createElement('div');
+    completeDiv.style.cssText = 'text-align:center;padding:30px 20px;';
+    completeDiv.innerHTML =
+      '<div style="font-size:3rem;margin-bottom:10px;">🎉</div>' +
+      '<div style="font-size:.95rem;font-weight:900;color:#065f46;line-height:1.7;">همه‌ی پیام‌ها رو با موفقیت مدیریت کردی!</div>' +
+      '<div style="font-size:.82rem;font-weight:700;color:#5a5a7a;margin-top:10px;line-height:1.7;">نور می‌خواد یه چیزی بهت بگه...</div>';
+    feed.appendChild(completeDiv);
+  }
+
+  phoneContent.appendChild(feed);
+
+  // Bind clicks
+  feed.querySelectorAll('.notif-card[data-id]').forEach(function(card){
+    card.addEventListener('click', function(){
+      var id = card.getAttribute('data-id');
+      var sc = state.scenarios.find(function(x){ return x.id === id; });
+      if(sc){ sTap(); openScenario(sc); }
+    });
+  });
+
+  // All done → show result
+  if(pending.length === 0){
+    setTimeout(showResult, 2500);
+  }
+}
+
+function openScenario(sc){
+  phoneContent.innerHTML = '';
+  var detail = document.createElement('div');
+  detail.className = 'detail-view';
+
+  detail.innerHTML =
+    '<div class="detail-header">' +
+      '<button class="detail-back" id="btnBackFeed">→</button>' +
+      '<div class="detail-app-icon" style="background:' + sc.appBg + '">' + sc.appIcon + '</div>' +
+      '<div class="detail-app-info">' +
+        '<div class="detail-app-name">' + sc.appName + '</div>' +
+        '<div class="detail-app-sub">' + sc.sender + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="detail-scroll">' +
+      '<div class="incoming-bubble">' + sc.message + '</div>' +
+      '<div class="choices-label">می‌خوای چیکار کنی؟</div>' +
+      '<div class="choices-list" id="choicesList"></div>' +
+    '</div>';
+
+  phoneContent.appendChild(detail);
+
+  $('btnBackFeed').addEventListener('click', function(){
+    sTap();
+    renderFeed();
+  });
+
+  var choicesList = $('choicesList');
+  sc.choices.forEach(function(ch, i){
+    var btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML =
+      '<div class="cb-icon">' + ch.icon + '</div>' +
+      '<div class="cb-text">' + ch.text + '</div>';
+    btn.addEventListener('click', function(){
+      handleChoice(sc, ch, btn);
+    });
+    choicesList.appendChild(btn);
+  });
+}
+
+function handleChoice(sc, choice, btn){
+  // Disable all
+  document.querySelectorAll('.choice-btn').forEach(function(b){ b.disabled = true; });
+
+  if(choice.type === 'safe'){
+    btn.classList.add('chosen-safe');
+    sGood();
+    sShield();
+    setGuardianState('happy');
+    guardianSay('عالی بود! 🌟', 2500);
+
+    state.shield++;
+    state.handled++;
+    if(state.done.indexOf(sc.id) === -1) state.done.push(sc.id);
+    state.history.push({ id: sc.id, type: 'safe', time: Date.now() });
+
+    popHudStat('hudShield');
+    updateHud();
+
+    var rect = btn.getBoundingClientRect();
+    floatReward('+🛡️', rect.left + 30, rect.top);
+    confetti(60, {x: innerWidth/2, y: innerHeight/2});
+
+    setTimeout(function(){
+      showInterventionModal(choice.praise, 'praise', function(){
+        renderFeed();
+        checkBadges();
+      });
+    }, 800);
+
+  } else if(choice.type === 'hint'){
+    btn.classList.add('chosen-hint');
+    sHint();
+    setGuardianState('happy');
+
+    state.shield++;
+    state.handled++;
+    if(state.done.indexOf(sc.id) === -1) state.done.push(sc.id);
+    state.history.push({ id: sc.id, type: 'hint', time: Date.now() });
+
+    popHudStat('hudShield');
+    updateHud();
+
+    var rect2 = btn.getBoundingClientRect();
+    floatReward('+🛡️', rect2.left + 30, rect2.top);
+
+    setTimeout(function(){
+      showInterventionModal(choice.hint, 'hint', function(){
+        renderFeed();
+        checkBadges();
+      });
+    }, 600);
+
+  } else {
+    // Risk
+    btn.classList.add('chosen-risk');
+    sAlert();
+    setGuardianState('alert');
+    guardianSay('یه لحظه صبر کن! ⚠️', 3500);
+    state.mistakes++;
+    state.history.push({ id: sc.id, type: 'risk', time: Date.now() });
+    updateHud();
+
+    // Phone shake
+    var phone = document.querySelector('.phone');
+    if(phone){
+      phone.style.animation = 'shake .4s';
+      setTimeout(function(){ phone.style.animation = ''; }, 500);
+    }
+
+    setTimeout(function(){
+      showInterventionModal(choice.warning, 'warning', function(){
+        // Allow retry
+        document.querySelectorAll('.choice-btn').forEach(function(b){
+          b.disabled = false;
+          b.classList.remove('chosen-risk');
+        });
+        setGuardianState(null);
+        guardianSay('حالا یه انتخاب دیگه بکن 💪', 2500);
+      });
+    }, 900);
+  }
+}
+
+/* ============================================================
+   MODAL
+============================================================ */
+var modalCallback = null;
+
+function showInterventionModal(data, type, callback){
+  modalCallback = callback;
+  var modalCard = $('modalCard');
+  modalCard.className = 'modal-card';
+
+  var iconClass = type === 'praise' ? 'praise' : type === 'hint' ? 'hint' : 'danger';
+  var iconEmoji = type === 'praise' ? '💚' : type === 'hint' ? '💡' : '⚠️';
+
+  $('modalIcon').className = 'modal-icon ' + iconClass;
+  $('modalIcon').textContent = iconEmoji;
+  $('modalTitle').textContent = data.title;
+  $('modalBody').innerHTML = data.body;
+
+  var tipEl = $('modalTip');
+  if(data.tip){
+    tipEl.innerHTML = data.tip;
+    tipEl.classList.remove('hidden');
+  } else {
+    tipEl.classList.add('hidden');
+  }
+
+  $('btnModalPrimary').textContent =
+    type === 'praise' ? 'ممنون! 🌟' :
+    type === 'hint' ? 'فهمیدم! 💡' :
+    'باشه، عوضش می‌کنم 💪';
+
+  $('btnModalSecondary').classList.add('hidden');
+  $('modal').classList.add('show');
+
+  if(type === 'praise'){ sGreat(); confetti(80); emojiRain(['🌟','✨','🛡️','💚'], 15); }
+  else if(type === 'hint'){ sHint(); }
+  else { sAlert(); }
+}
+
+$('btnModalPrimary').addEventListener('click', function(){
+  $('modal').classList.remove('show');
+  if(modalCallback){
+    var cb = modalCallback;
+    modalCallback = null;
+    setTimeout(cb, 200);
+  }
+});
+
+/* ============================================================
+   FIELD GUIDE
+============================================================ */
+function openGuide(){
+  sTap();
+  state.guideOpened++;
+  checkBadges();
+  var scroll = $('guideScroll');
+  scroll.innerHTML = '';
+  GUIDE_ITEMS.forEach(function(item){
+    var div = document.createElement('div');
+    div.className = 'guide-item ' + (item.type || '');
+    div.innerHTML =
+      '<div class="gi-title">' + item.emoji + ' ' + item.title + '</div>' +
+      '<div class="gi-text">' + item.text + '</div>';
+    scroll.appendChild(div);
+  });
+  $('guideModal').classList.add('show');
+}
+$('btnGuide').addEventListener('click', openGuide);
+$('btnGuideClose').addEventListener('click', function(){
+  sTap();
+  $('guideModal').classList.remove('show');
+});
+
+/* ============================================================
+   ACHIEVEMENTS
+============================================================ */
+function openAchievements(){
+  sTap();
+  var grid = $('achGrid');
+  grid.innerHTML = '';
+  ACHIEVEMENTS.forEach(function(a){
+    var earned = state.badges.indexOf(a.id) !== -1;
+    var div = document.createElement('div');
+    div.className = 'ach-item ' + (earned ? 'earned' : 'locked');
+    div.innerHTML =
+      '<div class="ai-emoji">' + a.emoji + '</div>' +
+      '<div class="ai-name">' + a.name + '</div>';
+    grid.appendChild(div);
+  });
+  $('achModal').classList.add('show');
+}
+$('btnAch').addEventListener('click', openAchievements);
+$('btnAchClose').addEventListener('click', function(){
+  sTap();
+  $('achModal').classList.remove('show');
+});
+
+function checkBadges(){
+  ACHIEVEMENTS.forEach(function(a){
+    if(state.badges.indexOf(a.id) === -1 && a.check(state)){
+      state.badges.push(a.id);
+      setTimeout(function(){ showBadgePopup(a); }, 800);
+    }
+  });
+}
+
+function showBadgePopup(badge){
+  var popup = document.createElement('div');
+  popup.className = 'badge-popup';
+  popup.innerHTML =
+    '<div class="bp-emoji">' + badge.emoji + '</div>' +
+    '<div class="bp-label">🏆 دستاورد جدید</div>' +
+    '<div class="bp-title">' + badge.name + '</div>';
+  document.body.appendChild(popup);
+  sBadge();
+  emojiRain(['🏆','🛡️','⭐','✨','💎'], 20);
+  confetti(80);
+  setTimeout(function(){ popup.classList.add('show'); }, 30);
+  setTimeout(function(){ popup.remove(); }, 3200);
+}
+
+/* ============================================================
+   RESULT SCREEN
+============================================================ */
+function showResult(){
+  // Hide app
+  $('app').style.display = 'none';
+  guardianHide();
+
+  var total = state.totalScenarios;
+  var done = state.handled;
+  var mistakes = state.mistakes;
+
+  var emoji, title, sub, badgeEmoji, badgeName, badgeDesc;
+
+  if(mistakes === 0 && done >= total){
+    emoji = '👑';
+    title = 'نگهبان بی‌نقص!';
+    sub = 'تو تمام پیام‌های خطرناک رو درست مدیریت کردی.<br>نور بهت افتخار می‌کنه! 🌟';
+    badgeEmoji = '👑';
+    badgeName = 'قهرمان دیجیتال';
+    badgeDesc = 'بدون هیچ خطایی، امنیت رو یاد گرفتی!';
+  } else if(mistakes <= 2 && done >= total){
+    emoji = '🏆';
+    title = 'نگهبان ماهر!';
+    sub = 'تو مسیر امنیت رو با یه کم کمک نور یاد گرفتی.<br>حالا آماده‌ای! 💪';
+    badgeEmoji = '🛡️';
+    badgeName = 'نگهبان دیجیتال';
+    badgeDesc = 'یاد گرفتی چطور امن بمونی و از خودت محافظت کنی';
+  } else if(done >= Math.floor(total * 0.5)){
+    emoji = '🌟';
+    title = 'شروع خوبی بود!';
+    sub = 'نصف راه رو رفتی و چیزهای زیادی یاد گرفتی.<br>با تکرار، ماهر می‌شی! 💫';
+    badgeEmoji = '🌱';
+    badgeName = 'نگهبان در حال یادگیری';
+    badgeDesc = 'قدم‌های مهمی برداشتی و چیزهای ارزشمندی یاد گرفتی';
+  } else {
+    emoji = '🌱';
+    title = 'شروع ماجراجویی';
+    sub = 'تو تازه شروع کردی و چیزهای مهمی یاد گرفتی.<br>با تمرین، حرفه‌ای می‌شی! 💪';
+    badgeEmoji = '🌱';
+    badgeName = 'نگهبان تازه‌کار';
+    badgeDesc = 'اولین قدم‌ها رو برداشتی، ادامه بده!';
+  }
+
+  $('resultEmoji').textContent = emoji;
+  $('resultTitle').textContent = title;
+  $('resultSub').innerHTML = sub;
+  $('resultStats').innerHTML =
+    '<div class="result-stat"><span class="rs-val">' + toFa(state.shield) + '</span><span class="rs-lbl">🛡️ سپر</span></div>' +
+    '<div class="result-stat"><span class="rs-val">' + toFa(state.handled) + '/' + toFa(state.totalScenarios) + '</span><span class="rs-lbl">✅ تکمیل</span></div>' +
+    '<div class="result-stat"><span class="rs-val">' + toFa(state.mistakes) + '</span><span class="rs-lbl">💡 یادگیری</span></div>';
+  $('rbEmoji').textContent = badgeEmoji;
+  $('rbName').textContent = badgeName;
+  $('rbDesc').textContent = badgeDesc;
+
+  $('screenResult').classList.add('active');
+
+  setTimeout(function(){
+    sGreat();
+    confetti(200);
+    emojiRain(['🏆','🛡️','⭐','✨','👑','💎'], 35);
+  }, 400);
+  setTimeout(function(){ confetti(150); }, 1500);
+}
+
+/* ============================================================
+   DASHBOARD
+============================================================ */
+function openDashboard(){
+  sTap();
+  var scroll = $('dashScroll');
+  scroll.innerHTML = '';
+
+  var total = state.totalScenarios;
+  var done = state.handled;
+  var mistakes = state.mistakes;
+  var accuracy = done > 0 ? Math.round(((done - mistakes) / done) * 100) : 0;
+
+  // Section 1: Overview
+  var s1 = document.createElement('div');
+  s1.className = 'dash-section';
+  s1.innerHTML =
+    '<h4>📊 خلاصه عملکرد</h4>' +
+    '<div class="dash-row"><span class="dr-key">نام دانش‌آموز</span><span class="dr-val">' + (state.name || '—') + '</span></div>' +
+    '<div class="dash-row"><span class="dr-key">گروه سنی</span><span class="dr-val">' + (state.age === 'kid' ? '۷-۹ سال' : state.age === 'tween' ? '۱۰-۱۲ سال' : '۱۳-۱۵ سال') + '</span></div>' +
+    '<div class="dash-row"><span class="dr-key">پیام‌های مدیریت‌شده</span><span class="dr-val">' + toFa(done) + ' از ' + toFa(total) + '</span></div>' +
+    '<div class="dash-row"><span class="dr-key">سپر کسب‌شده</span><span class="dr-val">' + toFa(state.shield) + ' 🛡️</span></div>' +
+    '<div class="dash-row"><span class="dr-key">یادگیری از خطا</span><span class="dr-val">' + toFa(mistakes) + ' مورد</span></div>' +
+    '<div class="dash-row"><span class="dr-key">دقت تصمیم‌گیری</span><span class="dr-val">' + toFa(accuracy) + '٪</span></div>' +
+    '<div class="dash-bar"><div class="dash-bar-fill" style="width:' + accuracy + '%"></div></div>';
+  scroll.appendChild(s1);
+
+  // Section 2: By Topic
+  var s2 = document.createElement('div');
+  s2.className = 'dash-section';
+  var topicStats = {
+    'اطلاعات شخصی': { count: 0, safe: 0 },
+    'فیشینگ و لینک‌های مشکوک': { count: 0, safe: 0 },
+    'رمز عبور': { count: 0, safe: 0 },
+    'حریم خصوصی': { count: 0, safe: 0 },
+    'قلدری اینترنتی': { count: 0, safe: 0 },
+    'کلاهبرداری': { count: 0, safe: 0 }
+  };
+
+  state.history.forEach(function(h){
+    // Simplified categorization
+    if(h.type === 'safe' || h.type === 'hint') {
+      topicStats['اطلاعات شخصی'].safe++;
+    }
+    topicStats['اطلاعات شخصی'].count++;
+  });
+
+  var s2html = '<h4>📚 موضوعات آموزش‌دیده</h4>';
+  Object.keys(topicStats).forEach(function(k){
+    var stat = topicStats[k];
+    if(stat.count > 0){
+      s2html += '<div class="dash-row"><span class="dr-key">' + k + '</span><span class="dr-val">' + toFa(stat.safe) + '/' + toFa(stat.count) + '</span></div>';
+    }
+  });
+  s2html += '<div style="font-size:.72rem;color:#5a5a7a;font-weight:700;margin-top:8px;line-height:1.7;">این گزارش برای پیگیری توسط والدین طراحی شده است. در صورت نیاز به بحث بیشتر درباره هر موضوع، از راهنمای میدانی استفاده کنید.</div>';
+  s2.innerHTML = s2html;
+  scroll.appendChild(s2);
+
+  // Section 3: Achievement Summary
+  var s3 = document.createElement('div');
+  s3.className = 'dash-section';
+  var badgesEarned = state.badges.length;
+  var badgesTotal = ACHIEVEMENTS.length;
+  s3.innerHTML =
+    '<h4>🏆 دستاوردها</h4>' +
+    '<div class="dash-row"><span class="dr-key">تعداد دستاورد</span><span class="dr-val">' + toFa(badgesEarned) + ' از ' + toFa(badgesTotal) + '</span></div>' +
+    '<div class="dash-bar"><div class="dash-bar-fill" style="width:' + (badgesTotal > 0 ? (badgesEarned / badgesTotal * 100) : 0) + '%"></div></div>';
+  scroll.appendChild(s3);
+
+  // Section 4: Recommendations
+  var s4 = document.createElement('div');
+  s4.className = 'dash-section';
+  var recs = [];
+  if(mistakes > 0){
+    recs.push('📌 در مورد انتخاب‌های ناامن با فرزندتان صحبت کنید و بپرسید چرا آن انتخاب را کرد.');
+  }
+  if(accuracy >= 80){
+    recs.push('✅ فرزند شما درک خوبی از امنیت دیجیتال دارد.');
+  }
+  if(done < total){
+    recs.push('💡 پیشنهاد می‌شود جلسه‌ی بعدی بازی را در کنار فرزندتان انجام دهید.');
+  }
+  recs.push('🎯 سعی کنید هر هفته یک بار بازی را انجام دهید تا مفاهیم در ذهن فرزندتان تثبیت شود.');
+  s4.innerHTML = '<h4>💡 توصیه برای والدین</h4>' + recs.map(function(r){ return '<div style="font-size:.78rem;font-weight:700;line-height:1.8;margin-bottom:6px;color:#1a1a25;">' + r + '</div>'; }).join('');
+  scroll.appendChild(s4);
+
+  $('dashModal').classList.add('show');
+}
+
+$('btnDashboard').addEventListener('click', openDashboard);
+$('btnDashClose').addEventListener('click', function(){
+  sTap();
+  $('dashModal').classList.remove('show');
+});
+
+/* ============================================================
+   START GAME
+============================================================ */
+var selectedAge = 'kid';
+
+function startGame(){
+  var name = $('nameInput').value.trim();
+  if(!name){
+    $('nameInput').focus();
+    showToast('اسمت رو بنویس تا شروع کنیم 🌟', 'info');
+    return;
+  }
+
+  state.name = name;
+  state.age = selectedAge;
+  state.scenarios = shuffle(SCENARIOS[selectedAge].slice());
+  state.totalScenarios = state.scenarios.length;
+  state.currentIndex = 0;
+  state.handled = 0;
+  state.shield = 0;
+  state.mistakes = 0;
+  state.done = [];
+  state.badges = [];
+  state.history = [];
+  state.guideOpened = 0;
+
+  $('screenStart').classList.remove('active');
+  $('screenResult').classList.remove('active');
+  $('app').style.display = 'flex';
+  $('app').classList.add('active');
+  guardianShow();
+
+  updateHud();
+  renderFeed();
+
+  setTimeout(function(){
+    sNotif();
+    guardianSay('سلام ' + name + '! 🌟<br>گوشیت آماده‌ست. چند تا پیام اومده... بیا با هم ببینیمشون!', 4500);
+  }, 600);
+}
+
+function restart(){
+  $('screenResult').classList.remove('active');
+  $('app').classList.remove('active');
+  $('app').style.display = 'none';
+  $('screenStart').classList.add('active');
+  $('nameInput').value = '';
+  guardianHide();
+  phoneContent.innerHTML = '';
+}
+
+/* ============================================================
+   AGE SELECTION
+============================================================ */
+document.querySelectorAll('.age-card').forEach(function(card){
+  card.addEventListener('click', function(){
+    document.querySelectorAll('.age-card').forEach(function(c){ c.classList.remove('selected'); });
+    card.classList.add('selected');
+    selectedAge = card.getAttribute('data-age');
+    sTap();
+  });
+});
+
+/* ============================================================
+   WIRING
+============================================================ */
+$('btnStart').addEventListener('click', function(){
+  initAudio();
+  sTap();
+  startGame();
+});
+$('nameInput').addEventListener('keypress', function(e){
+  if(e.key === 'Enter') $('btnStart').click();
+});
+$('btnRestart').addEventListener('click', function(){
+  sTap();
+  restart();
+});
+
+document.body.addEventListener('touchstart', initAudio, {once:true});
+document.body.addEventListener('click', initAudio, {once:true});
+
+// Pre-select first age
+document.querySelector('.age-card[data-age="kid"]').classList.add('selected');
+
+// Init particles
+initParticles();
+</script>
+</body>
+</html>
